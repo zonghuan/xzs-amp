@@ -1,5 +1,5 @@
 import _ from 'underscore'
-import redux from 'redux'
+import {createStore,combineReducers} from 'redux'
 
 import navHtml from './nav.html'
 import pageHtml from './page.html'
@@ -24,6 +24,6 @@ $(()=>{
   tabs.eq(0).trigger('click')
 
   // 设置
-  
+
 
 })
