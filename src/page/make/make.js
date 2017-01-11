@@ -1,10 +1,9 @@
 import _ from 'underscore'
-import {createStore,combineReducers} from 'redux'
 
 import navHtml from './nav.html'
 import pageHtml from './page.html'
 import "./make.less"
-
+import store from './store.js'
 
 var content=$('#content')
 
@@ -24,6 +23,9 @@ $(()=>{
   tabs.eq(0).trigger('click')
 
   // 设置
-
+  $('#configColor').on('change',function(e){
+    const value=$(e.target).val()
+    store.dispatch({type:"background-color",value})
+  })
 
 })
