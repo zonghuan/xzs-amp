@@ -20,7 +20,7 @@ tabs.on('click',function(e){
 
 $(()=>{
 
-  tabs.eq(0).trigger('click')
+  tabs.eq(0).trigger('click') 
 
   // 设置
   $('#configColor').on('change',function(e){

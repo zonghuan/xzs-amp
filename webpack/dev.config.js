@@ -17,10 +17,10 @@ module.exports = {
     filename: "[name]-[hash].js"
   },
   plugins:[
-    new ExtractTextPlugin("[name]-[chunkhash].css"),
     new webpack.optimize.CommonsChunkPlugin({
        names: ['zzlib', 'manifest']
     }),
+    new ExtractTextPlugin("[name]-[chunkhash].css"),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       "process.env": {

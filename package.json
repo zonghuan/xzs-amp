@@ -6,27 +6,26 @@
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js --progress --config ./webpack/prod.config.js",
     "dev": "webpack-dev-server --content-base dist/ --port 9003 --hot --inline --config ./webpack/dev.config.js",
-    "dev-server": "NODE_ENV=development node app.js"
+    "dev-server": "NODE_ENV=development node app.js",
+    "server": "NODE_ENV=production node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "co": "^4.6.0",
     "commander": "^2.9.0",
+    "composition": "^2.3.0",
+    "extract-text-webpack-plugin": "^1.0.1",
     "glob-stream": "^5.3.5",
-    "html-webpack-plugin": "^2.22.0",
     "http-proxy": "^1.15.1",
     "jquery": "^3.1.1",
     "koa": "^1.2.4",
     "koa-body": "^1.5.0",
+    "koa-proxy2": "^0.11.0",
+    "koa-static": "^2.0.0",
     "redux": "^3.6.0",
     "response-static": "^1.0.0",
-    "rx": "^4.1.0",
     "scuttlebutt": "^5.6.14",
-    "shelljs": "^0.7.4",
-    "socket.io": "^1.4.8",
-    "socket.io-client": "^1.4.8",
-    "ssh2": "^0.5.4",
     "thunkify": "^2.1.2",
     "underscore": "^1.8.3"
   },
