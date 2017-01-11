@@ -4,6 +4,8 @@ var proxy = require('koa-proxy2')
 var config=require('../config.json')
 var isDebug=process.env.NODE_ENV==='development'
 var bodyParser = require('koa-bodyparser');
+var send=require('koa-send')
+var path=require('path')
 
 if(!isDebug){
   app.use(require('koa-static')('dist'))
@@ -19,7 +21,15 @@ if(!isDebug){
     ]
   }))
 }
-
+app.use(function *(next){
+  var rootPath='resource';
+  var urlPath=this.path;
+  if(urlPath.indexOf(rootPath)!==-1){
+    yield send(this, urlPath.replace(rootPath+'/',''), { root: path.join(process.cwd(),rootPath) });
+  }else{
+    yield next;
+  }
+})
 app.use(bodyParser())
 
 app.listen(config.port,()=>{
