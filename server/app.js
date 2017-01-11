@@ -1,8 +1,9 @@
 var koa=require('koa')
 var app=koa()
 var proxy = require('koa-proxy2')
-var config=require('./config.json')
+var config=require('../config.json')
 var isDebug=process.env.NODE_ENV==='development'
+var bodyParser = require('koa-bodyparser');
 
 if(!isDebug){
   app.use(require('koa-static')('dist'))
@@ -18,6 +19,8 @@ if(!isDebug){
     ]
   }))
 }
+
+app.use(bodyParser())
 
 app.listen(config.port,()=>{
   console.log('listening on '+config.port)

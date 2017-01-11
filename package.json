@@ -6,8 +6,8 @@
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js --progress --config ./webpack/prod.config.js",
     "dev": "webpack-dev-server --content-base dist/ --port 9003 --hot --inline --config ./webpack/dev.config.js",
-    "dev-server": "NODE_ENV=development node app.js",
-    "server": "NODE_ENV=production node app.js"
+    "dev-server": "NODE_ENV=development node ./server/app.js",
+    "server": "NODE_ENV=production node ./server/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "jquery": "^3.1.1",
     "koa": "^1.2.4",
     "koa-body": "^1.5.0",
+    "koa-bodyparser": "^2.3.0",
     "koa-proxy2": "^0.11.0",
     "koa-static": "^2.0.0",
     "redux": "^3.6.0",
