@@ -7,6 +7,12 @@ var bodyParser = require('koa-bodyparser');
 var send=require('koa-send')
 var path=require('path')
 
+app.use(bodyParser())
+
+var router=require('./route')
+app.use(router.routes())
+  .use(router.allowedMethods());
+
 if(!isDebug){
   app.use(require('koa-static')('dist'))
 }else{
@@ -30,7 +36,6 @@ app.use(function *(next){
     yield next;
   }
 })
-app.use(bodyParser())
 
 app.listen(config.port,()=>{
   console.log('listening on '+config.port)
