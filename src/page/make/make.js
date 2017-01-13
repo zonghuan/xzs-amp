@@ -8,7 +8,6 @@ import upload from 'widget/upload'
 import localStore from 'widget/store'
 
 const banner=localStore.banner
-console.log(banner)
 
 var content=$('#content')
 
@@ -25,6 +24,9 @@ tabs.on('click',function(e){
 })
 
 $(()=>{
+
+  var globalIndex=0;
+  const pageContent=$('#pageContent')
 
   // 右侧tab默认选中第一个
   tabs.eq(1).trigger('click')
@@ -47,7 +49,7 @@ $(()=>{
   const createBanner=fullPath=>(
     `<div class="banner-item">
       <a data-url="${fullPath}" href="javascript:void(0);" class="banner-del">x</a>
-      <img class="banner-img" src="${fullPath}" />
+      <img draggable class="banner-img" src="${fullPath}" />
     </div>`
   )
   var list=banner.get()
@@ -60,6 +62,7 @@ $(()=>{
     container.append(createBanner(fullPath))
   })
 
+  // 删除右侧banner
   container.on('click','.banner-del',e=>{
     var element=$(e.target)
     var url=element.attr('data-url')
@@ -67,5 +70,29 @@ $(()=>{
     banner.del(url)
   })
 
+  // 拖拽右侧的banner到左边
+  var dragItem=null;
+  container.on('dragstart','.banner-img',e=>{
+    dragItem=e.target
+  })
+  pageContent.on('dragover',e=>{
+    e.preventDefault();
+  })
+  pageContent.on('drop',e=>{
+    store.dispatch({
+      type:'banner',
+      src:$(dragItem).attr('src'),
+      index:globalIndex++
+    })
+  })
+
+  pageContent.on('click','.page-pannel-del',e=>{
+    console.log(123)
+    var element=$(e.target)
+    store.dispatch({
+      type:'banner-del',
+      index:element.attr('data-index')
+    })
+  })
 
 })
