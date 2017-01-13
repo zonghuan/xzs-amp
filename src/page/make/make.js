@@ -86,8 +86,8 @@ $(()=>{
     })
   })
 
+  // 删除左侧banner
   pageContent.on('click','.page-pannel-del',e=>{
-    console.log(123)
     var element=$(e.target)
     store.dispatch({
       type:'banner-del',
