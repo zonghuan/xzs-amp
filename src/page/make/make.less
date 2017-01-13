@@ -1,21 +1,18 @@
+/* reset */
 body .nav-right .active a,body .nav-right .active a:focus{
   background-color:#e7e7e7;
 }
 body a{
   color:#777;
 }
+/* --- */
+
+/* 布局定义 */
 .page{
   display:flex;
 }
 .page-left{
   flex:1 0 800px;
-}
-.page-make{
-  width:10rem;
-  height:15rem;
-  box-shadow:0 0 20px rgba(0,0,0,.15);
-  margin:20px auto;
-  background-color: #fff;
 }
 .page-right{
   flex:1 0 400px;
@@ -23,6 +20,18 @@ body a{
   border-left: 1px solid #e7e7e7;
   border-bottom: 1px solid #e7e7e7;
 }
+/* --- */
+
+
+.page-make{
+  width:10rem;
+  height:15rem;
+  box-shadow:0 0 20px rgba(0,0,0,.15);
+  margin:20px auto;
+  background-color: #fff;
+}
+
+/* 设置tab和面板 */
 .navbar-page{
   margin-bottom: 0;
 }
@@ -51,5 +60,35 @@ body .page-config .control-label{
   margin:0 0 15px 0;
 }
 .page-banner{
-  text-align:center;
+  text-align: center;
 }
+.banner-container{
+  text-align:center;
+  .banner-item{
+    box-shadow:0 0 5px rgba(0,0,0,.3);
+    position:relative;
+    width:350px;
+    margin:20px auto;
+    .banner-img{
+      width:100%;
+      height:auto;
+      max-height: 400px;
+    }
+    .banner-del{
+      position:absolute;
+      right:-10px;
+      top:-10px;
+      background-color:#000;
+      color:#fff;
+      width:20px;
+      height:20px;
+      line-height: 20px;
+      font-size:15px;
+      text-align:center;
+      border:1px solid #fff;
+      border-radius:50%;
+    }
+  }
+}
+
+/* ---- */
