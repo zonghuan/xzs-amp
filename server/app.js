@@ -7,7 +7,9 @@ var bodyParser = require('koa-bodyparser');
 var send=require('koa-send')
 var path=require('path')
 
-app.use(bodyParser())
+app.use(bodyParser({
+  formLimit:'1024kb'
+}))
 
 var router=require('./route')
 app.use(router.routes())

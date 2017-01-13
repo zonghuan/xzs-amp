@@ -1,6 +1,7 @@
 var router=require('koa-router')()
 
-router.get('/api/upload.json',function *(next){
+router.post('/api/upload.json',function *(next){
+  console.log(123)
   this.body='abc';
 })
 
