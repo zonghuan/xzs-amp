@@ -9,8 +9,12 @@ var path=require('path')
 
 app.use(
   bodyParser({
-    formidable:{uploadDir: path.join(process.cwd(),'resource')},
-    formLimit:"1024kb"
+    formidable:{
+      uploadDir: path.join(process.cwd(),'resource'),
+      keepExtensions:true
+    },
+    formLimit:"1024kb",
+    multipart:true
   })
 )
 

@@ -1,6 +1,10 @@
 export default (state={},action)=>{
-  if(action.type==='background-color'){
-    state['background-color']=action.value;
+  const globalTypes=[
+    'background-color',
+    'background-image'
+  ];
+  if(globalTypes.indexOf(action.type)>-1){
+    state[action.type]=action.value;
     return Object.assign({},state)
   }
   return state;
