@@ -46,7 +46,7 @@ $(()=>{
   const container=$('#bannerContainer')
   const createBanner=fullPath=>(
     `<div class="banner-item">
-      <a href="javascript:void(0);" class="banner-del">x</a>
+      <a data-url="${fullPath}" href="javascript:void(0);" class="banner-del">x</a>
       <img class="banner-img" src="${fullPath}" />
     </div>`
   )
@@ -58,6 +58,13 @@ $(()=>{
     const fullPath=getFullPath(img)
     banner.set(fullPath)
     container.append(createBanner(fullPath))
+  })
+
+  container.on('click','.banner-del',e=>{
+    var element=$(e.target)
+    var url=element.attr('data-url')
+    element.parent().remove()
+    banner.del(url)
   })
 
 

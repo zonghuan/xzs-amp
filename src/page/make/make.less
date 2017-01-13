@@ -43,7 +43,7 @@ body a{
   left:10;
 }
 .page-config{
-  padding:20px 10px 10px;
+  padding:10px 10px 10px;
   display: none;
 }
 body .page-config .control-label{
@@ -61,14 +61,18 @@ body .page-config .control-label{
 }
 .page-banner{
   text-align: center;
+  margin:5px 0;
 }
 .banner-container{
   text-align:center;
+  padding-top:10px;
+  height:595px;
+  overflow: auto;
   .banner-item{
     box-shadow:0 0 5px rgba(0,0,0,.3);
     position:relative;
     width:350px;
-    margin:20px auto;
+    margin:5px auto 20px;
     .banner-img{
       width:100%;
       height:auto;
@@ -76,17 +80,22 @@ body .page-config .control-label{
     }
     .banner-del{
       position:absolute;
-      right:-10px;
-      top:-10px;
+      right:-5px;
+      top:-5px;
       background-color:#000;
       color:#fff;
       width:20px;
       height:20px;
-      line-height: 20px;
+      line-height: 17px;
       font-size:15px;
       text-align:center;
       border:1px solid #fff;
       border-radius:50%;
+      vertical-align: middle;
+    }
+    .banner-del:hover,.banner-del:focus{
+      text-decoration: none;
+      box-shadow:0 0 5px rgba(0,0,0,.3);
     }
   }
 }
