@@ -3,13 +3,16 @@ var app=koa()
 var proxy = require('koa-proxy2')
 var config=require('../config.json')
 var isDebug=process.env.NODE_ENV==='development'
-var bodyParser = require('koa-bodyparser');
+var bodyParser = require('koa-body');
 var send=require('koa-send')
 var path=require('path')
 
-app.use(bodyParser({
-  formLimit:'1024kb'
-}))
+app.use(
+  bodyParser({
+    formidable:{uploadDir: path.join(process.cwd(),'resource')},
+    formLimit:"1024kb"
+  })
+)
 
 var router=require('./route')
 app.use(router.routes())

@@ -40,4 +40,4 @@ jspm_packages
 
 dist
 
-resource
+resource/*.*
