@@ -6,7 +6,7 @@ export default (file,callback)=>{
   file.attr('accept','image/png,image/jpg,image/jpeg,image/git')
 
   var wrap=file.parent()
-  wrap.append('<i class="iconfont">&#xe739;</i>上传文件')
+  wrap.append('<i class="iconfont">&#xe739;</i>上传图片')
   file.on('change',function(e){
     var element=$(this)
     var formData=new FormData();
@@ -22,7 +22,7 @@ export default (file,callback)=>{
       result=JSON.parse(result)
       if(result.code==1){
         wrap.css('background-image',`url(${result.msg})`)
-        callback(result.msg)
+        callback&&callback(result.msg)
       }
     });
     promise.fail(e=>{

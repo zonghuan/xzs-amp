@@ -30,7 +30,11 @@ $(()=>{
   })
 
   upload($('#backgroundImg'),(img)=>{
-    store.dispatch({type:"background-image",value:`url(http://${window.location.host+'/'+img})`})  
+    store.dispatch({type:"background-image",value:`url(http://${window.location.host+'/'+img})`})
+  })
+
+  upload($('#bannerImg'),img=>{
+
   })
 
 })
