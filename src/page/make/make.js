@@ -1,13 +1,13 @@
 import _ from 'underscore'
 
-import navHtml from './nav.html'
 import pageHtml from './page.html'
 import "./make.less"
 import store from './store.js'
+import createNav from 'widget/nav'
 
 var content=$('#content')
 
-content.append(navHtml)
+content.append(createNav('make'))
 content.append(pageHtml)
 
 const tabs=$('#rightTab a');
@@ -20,7 +20,7 @@ tabs.on('click',function(e){
 
 $(()=>{
 
-  tabs.eq(0).trigger('click') 
+  tabs.eq(0).trigger('click')
 
   // 设置
   $('#configColor').on('change',function(e){
