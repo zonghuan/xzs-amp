@@ -5,7 +5,7 @@ import html from './pit.html'
 import "./pit.less"
 import "codemirror/lib/codemirror.css"
 import CodeMirror from 'codemirror/lib/codemirror.js'
-import "codemirror/mode/htmlmixed/htmlmixed.js"
+import "codemirror/mode/htmlembedded/htmlembedded.js"
 import "codemirror/mode/css/css.js"
 
 
@@ -17,7 +17,7 @@ content.append(html)
 $(()=>{
   var htmlEditor = CodeMirror.fromTextArea(document.getElementById('htmlEditor'),{
     lineNumbers: true,
-    mode:'htmlmixed'
+    mode:'application/x-ejs'
   });
   var lessEditor = CodeMirror.fromTextArea(document.getElementById('lessEditor'),{
     lineNumbers: true,
