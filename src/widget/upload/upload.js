@@ -1,12 +1,12 @@
 import "./upload.less"
 
-export default (file,callback)=>{
+export default (file,callback,placeholder)=>{
   file.wrap('<div class="upload"></div>')
   file.addClass('upload-input')
   file.attr('accept','image/png,image/jpg,image/jpeg,image/git')
 
   var wrap=file.parent()
-  wrap.append('<i class="iconfont">&#xe739;</i>上传图片')
+  wrap.append('<i class="iconfont">&#xe739;</i>'+(placeholder||'上传图片'))
   file.on('change',function(e){
     var element=$(this)
     var formData=new FormData();
