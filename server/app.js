@@ -3,9 +3,24 @@ var app=koa()
 var proxy = require('koa-proxy2')
 var config=require('../config.json')
 var isDebug=process.env.NODE_ENV==='development'
-var bodyParser = require('koa-bodyparser');
+var bodyParser = require('koa-body');
 var send=require('koa-send')
 var path=require('path')
+
+app.use(
+  bodyParser({
+    formidable:{
+      uploadDir: path.join(process.cwd(),'resource'),
+      keepExtensions:true
+    },
+    formLimit:"1024kb",
+    multipart:true
+  })
+)
+
+var router=require('./route')
+app.use(router.routes())
+  .use(router.allowedMethods());
 
 if(!isDebug){
   app.use(require('koa-static')('dist'))
@@ -30,7 +45,6 @@ app.use(function *(next){
     yield next;
   }
 })
-app.use(bodyParser())
 
 app.listen(config.port,()=>{
   console.log('listening on '+config.port)

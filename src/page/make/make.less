@@ -1,18 +1,14 @@
 body a{
   color:#777;
 }
+/* --- */
+
+/* 布局定义 */
 .page{
   display:flex;
 }
 .page-left{
   flex:1 0 800px;
-}
-.page-make{
-  width:10rem;
-  height:15rem;
-  box-shadow:0 0 20px rgba(0,0,0,.15);
-  margin:20px auto;
-  background-color: #fff;
 }
 .page-right{
   flex:1 0 400px;
@@ -20,6 +16,18 @@ body a{
   border-left: 1px solid #e7e7e7;
   border-bottom: 1px solid #e7e7e7;
 }
+/* --- */
+
+
+.page-make{
+  width:10rem;
+  height:15rem;
+  box-shadow:0 0 20px rgba(0,0,0,.15);
+  margin:20px auto;
+  background-color: #fff;
+}
+
+/* 设置tab和面板 */
 .navbar-page{
   margin-bottom: 0;
 }
@@ -31,7 +39,7 @@ body a{
   left:10;
 }
 .page-config{
-  padding:20px 10px 10px;
+  padding:10px 10px 10px;
   display: none;
 }
 body .page-config .control-label{
@@ -39,6 +47,80 @@ body .page-config .control-label{
 }
 
 #pageContent{
-  width:100%;
-  min-height:100%;
+  width:10rem;
+  height:16rem;
+  overflow: auto;
+  background-repeat: repeat;
 }
+
+.page-config .form-group{
+  margin:0 0 15px 0;
+}
+.page-banner{
+  text-align: center;
+  margin:5px 0;
+}
+.banner-container{
+  text-align:center;
+  padding-top:10px;
+  height:595px;
+  overflow: auto;
+  .banner-item{
+    box-shadow:0 0 5px rgba(0,0,0,.3);
+    position:relative;
+    width:350px;
+    margin:5px auto 20px;
+    .banner-img{
+      width:100%;
+      height:auto;
+      max-height: 400px;
+    }
+    .banner-del{
+      position:absolute;
+      right:-5px;
+      top:-5px;
+      background-color:#000;
+      color:#fff;
+      width:20px;
+      height:20px;
+      line-height: 17px;
+      font-size:15px;
+      text-align:center;
+      border:1px solid #fff;
+      border-radius:50%;
+      vertical-align: middle;
+    }
+    .banner-del:hover,.banner-del:focus{
+      text-decoration: none;
+      box-shadow:0 0 5px rgba(0,0,0,.3);
+    }
+  }
+}
+
+/* ---- */
+
+/* page */
+.page-pannel{
+  position: relative;
+  .page-pannel-del{
+    position:absolute;
+    right:0px;
+    top:0px;
+    background-color:#000;
+    color:#fff;
+    width:20px;
+    height:20px;
+    line-height: 17px;
+    font-size:15px;
+    text-align:center;
+    border:1px solid #fff;
+    border-radius:50%;
+    vertical-align: middle;
+  }
+  .page-pannel-del:hover,.page-pannel-del:focus{
+    text-decoration: none;
+    box-shadow:0 0 5px rgba(0,0,0,.3);
+  }
+}
+
+/* ---- */
