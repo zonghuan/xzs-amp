@@ -39,11 +39,9 @@ $(()=>{
     store.dispatch({type:"background-color",value})
   })
 
-  var getFullPath=img=>`http://${window.location.host}/${img}`
-
   //  设置背景图片
   upload($('#backgroundImg'),(img)=>{
-    store.dispatch({type:"background-image",value:`url(${getFullPath(img)})`})
+    store.dispatch({type:"background-image",value:`url(${img})`})
   })
 
   // 上传banner图
@@ -59,7 +57,7 @@ $(()=>{
     container.append(createBanner(list[i]))
   }
   upload($('#bannerImg'),img=>{
-    const fullPath=getFullPath(img)
+    const fullPath=img
     banner.set(fullPath)
     container.append(createBanner(fullPath))
   })

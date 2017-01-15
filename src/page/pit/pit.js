@@ -7,7 +7,7 @@ import "codemirror/lib/codemirror.css"
 import CodeMirror from 'codemirror/lib/codemirror.js'
 import "codemirror/mode/htmlembedded/htmlembedded.js"
 import "codemirror/mode/css/css.js"
-
+import upload from 'widget/upload'
 
 const content=$('#content')
 content.append(createNav('pit'))
@@ -24,4 +24,12 @@ $(()=>{
     matchBrackets:true,
     mode:'text/x-less'
   });
+  upload($('#pitImg'),img=>{
+    var review=$('#pitImgReview')
+    if(review.find('img').length===0){
+      return review.append(`<img src="${img}" />`)
+    }
+    var img=review.find('img')
+    img.attr('src',img)
+  },'上传预览图')
 })
