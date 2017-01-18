@@ -1,4 +1,5 @@
 {
   "port":9888,
-  "front":9003
+  "front":9003,
+  "mongoose":"mongodb://localhost/activity"
 }

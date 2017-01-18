@@ -32,4 +32,20 @@ $(()=>{
     var img=review.find('img')
     img.attr('src',img)
   },'上传预览图')
+
+  $('#save').on('click',function(e){
+    var promise=$.ajax('/api/pit/create',{
+      method:'post',
+      data:{
+        html:'abc',
+        css:'ddd',
+        name:'dse'
+      }
+    })
+    promise.done(result=>{
+      if(result.code===0){
+
+      }
+    })
+  })
 })
