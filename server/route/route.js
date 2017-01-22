@@ -1,4 +1,12 @@
 var router=require('./instance.js')
+
+// 上传接口
 require('./upload.js')
+
+// 坑位接口
 require('./pit.js')
+
+// 预览接口
+require('./preview.js')
+
 module.exports=router

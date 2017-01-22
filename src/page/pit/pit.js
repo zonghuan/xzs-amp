@@ -33,18 +33,31 @@ $(()=>{
     img.attr('src',img)
   },'上传预览图')
 
+
   $('#save').on('click',function(e){
+    var html = htmlEditor.getValue()
+    var css = lessEditor.getValue()
+    var name = $('#inputName').val()
+    var img = $('#pitImgReview').find('img')
+    var modal = $('#msgDialog')
+
+    if(!html||!css||!name||img.length===0){
+      modal.find('.modal-info').html('坑位信息不全，不能添加')
+      return modal.modal('show')
+    }
+
     var promise=$.ajax('/api/pit/create',{
       method:'post',
       data:{
-        html:'abc',
-        css:'ddd',
-        name:'dse'
+        html,
+        css,
+        name,
+        url:img.attr('src')
       }
     })
     promise.done(result=>{
-      if(result.code===0){
-
+      if(result.code===1){
+        modal.find('.modal-info').html('添加坑位成功')
       }
     })
   })

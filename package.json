@@ -16,6 +16,7 @@
     "codemirror": "^5.22.2",
     "commander": "^2.9.0",
     "composition": "^2.3.0",
+    "dwd-rem": "^1.0.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "glob-stream": "^5.3.5",
     "http-proxy": "^1.15.1",
@@ -28,12 +29,14 @@
     "koa-send": "^3.3.0",
     "koa-static": "^2.0.0",
     "koa-views": "^4.1.0",
+    "less": "^2.7.2",
     "mongoose": "^4.7.7",
     "redux": "^3.6.0",
     "response-static": "^1.0.0",
     "scuttlebutt": "^5.6.14",
     "thunkify": "^2.1.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "zepto": "^1.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
