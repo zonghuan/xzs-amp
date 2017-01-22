@@ -34,31 +34,8 @@ var getPage = (html) => {
 }
 
 var pit = require('../controller/pit.js')
-var thunkLess = (less) => (callback) =>{
-  return require('less').render(
-    less,
-    {
-      globalVars:{
-        base:750/10+"rem"
-      }
-    },
-    callback)
-}
-
-var mockList = [{
-  iscountPrice:19900,
-  discountPriceYuanString:"199.00",
-  feature:null,
-  inventory:1,
-  itemId:10204457,
-  picUrl:"http://img.xianzaishi.com/2/1484054198499_500_676.jpg",
-  price:19900,
-  priceYuanString:"199.00",
-  sku:"11191",
-  subtitle:"水果礼盒",
-  title:"果物满满水果礼盒"
-}]
-
+var thunkLess = require('../util/thunkLess.js')
+var mockList = require('../util/mockData.js')
 
 router.get('/api/preview.json',function *(next){
   this.set('Content-Type','text/html')

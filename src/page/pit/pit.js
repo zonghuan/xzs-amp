@@ -46,7 +46,7 @@ $(()=>{
       return modal.modal('show')
     }
 
-    var promise=$.ajax('/api/pit/create',{
+    var promise=$.ajax('/api/pit/create.json',{
       method:'post',
       data:{
         html,
