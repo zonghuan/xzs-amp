@@ -5,6 +5,7 @@ var thunkLess = require('../util/thunkLess.js')
 var pit = require('../controller/pit.js')
 var _ = require('underscore')
 
+// 创建坑位
 router.post('/api/pit/create.json',function *(next){
   try{
     var body = this.request.body
@@ -19,6 +20,23 @@ router.post('/api/pit/create.json',function *(next){
   }
 })
 
+// 更新坑位
+router.post('/api/pit/update.json',function *(next){
+  try{
+    var body = this.request.body
+    var pits = yield pit.find({_id:body._id})
+    if(pits.length > 0){
+      var result = yield pit.update(body)
+      this.body = format(null,result)
+    }else{
+      this.body = format('没有更新的模块')
+    }
+  }catch(e){
+    this.body = format(e)
+  }
+})
+
+// 根据坑位id和数据  获取生成的html
 var mock = require('../util/mockData.js')
 router.get('/api/pit/html.json',function *(next){
   try{
@@ -33,5 +51,20 @@ router.get('/api/pit/html.json',function *(next){
     }
   }catch(e){
     this.body=format(e)
+  }
+})
+
+// 获取坑位详情
+router.get('/api/pit/detail.json',function *(next){
+  try{
+    var query = this.request.query
+    var result = yield pit.find({_id:query.pit})
+    if(result.length > 0){
+      this.body = format(null, result[0])
+    }else{
+      this.body = format('坑位信息输入不合法')
+    }
+  }catch(e){
+    this.body = format(e)
   }
 })

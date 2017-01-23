@@ -8,6 +8,8 @@ import CodeMirror from 'codemirror/lib/codemirror.js'
 import "codemirror/mode/htmlembedded/htmlembedded.js"
 import "codemirror/mode/css/css.js"
 import upload from 'widget/upload'
+import {getUrlParam} from 'xzs-util'
+import dialog from 'widget/dialog'
 
 const content=$('#content')
 content.append(createNav('pit'))
@@ -29,10 +31,26 @@ $(()=>{
     if(review.find('img').length===0){
       return review.append(`<img src="${img}" />`)
     }
-    var img=review.find('img')
-    img.attr('src',img)
+    var imgDom=review.find('img')
+    imgDom.attr('src',img)
   },'上传预览图')
 
+  // 修改坑位  回填坑位详情
+  var pit = getUrlParam('pit')
+  if(pit){
+    var detail = $.ajax('/api/pit/detail.json',{
+      data:{pit}
+    })
+    detail.done(result=>{
+      if(result.code==1){
+        var {msg} = result
+        htmlEditor.setValue(msg.html)
+        lessEditor.setValue(msg.css)
+        $('#inputName').val(msg.name)
+        $('#pitImgReview').append(`<img src="${msg.url}" />`)
+      }
+    })
+  }
 
   $('#save').on('click',function(e){
     var html = htmlEditor.getValue()
@@ -42,8 +60,26 @@ $(()=>{
     var modal = $('#msgDialog')
 
     if(!html||!css||!name||img.length===0){
-      modal.find('.modal-info').html('坑位信息不全，不能添加')
-      return modal.modal('show')
+      return dialog('坑位信息不全，不能添加','坑位提示')
+    }
+
+    if(pit){
+      var savePromise = $.ajax('/api/pit/update.json',{
+        method:'post',
+        data:{
+          _id:pit,
+          html,
+          css,
+          name,
+          url:img.attr('src')
+        }
+      })
+      savePromise.then(result => {
+        if(result.code === 1){
+          return dialog('坑位更新成功')
+        }
+      })
+      return
     }
 
     var promise=$.ajax('/api/pit/create.json',{
@@ -57,8 +93,11 @@ $(()=>{
     })
     promise.done(result=>{
       if(result.code===1){
-        modal.find('.modal-info').html('添加坑位成功')
+        return dialog('坑位信息不全，不能添加','坑位提示')
+      }else{
+        return dialog(result.msg)
       }
     })
+
   })
 })

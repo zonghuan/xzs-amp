@@ -36,6 +36,7 @@
     "scuttlebutt": "^5.6.14",
     "thunkify": "^2.1.2",
     "underscore": "^1.8.3",
+    "xzs-util": "^1.0.2",
     "zepto": "^1.2.0"
   },
   "devDependencies": {
