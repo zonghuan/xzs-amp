@@ -106,7 +106,6 @@ $(()=>{
   var pitContainer = $('#pagePits')
   var pitPromise = $.ajax('/api/pit/short.json');
   pitPromise.done(result => {
-    console.log(result)
     if(result.code===1){
       var list = result.msg
       for(var i=0;i<list.length;i++){
