@@ -1,3 +1,5 @@
+
+// 生成页面的外壳
 var path = require('path')
 var fs = require('fs')
 
@@ -6,7 +8,6 @@ var zeptoPath = path.join(nodeModulesPath,'zepto/dist/zepto.min.js')
 var zeptoJs = fs.readFileSync(zeptoPath)
 var remPath = path.join(nodeModulesPath,'dwd-rem/rem.js')
 var remJs = fs.readFileSync(remPath)
-
 
 module.exports = (html) => {
   return (
@@ -18,6 +19,8 @@ module.exports = (html) => {
         <style>
           body,html{
             background-color:#eee;
+          }
+          p,body,html{
             margin:0;
             padding:0;
           }

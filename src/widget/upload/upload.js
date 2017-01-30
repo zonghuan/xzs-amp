@@ -19,7 +19,6 @@ export default (file,callback,placeholder)=>{
       data:formData
     })
     promise.done(result=>{
-      result=JSON.parse(result)
       if(result.code==1){
         wrap.css('background-image',`url(${getFullPath(result.msg)})`)
         callback&&callback(getFullPath(result.msg))

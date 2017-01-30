@@ -6,6 +6,7 @@ var isDebug=process.env.NODE_ENV==='development'
 var bodyParser = require('koa-body');
 var send=require('koa-send')
 var path=require('path')
+var url = require('url')
 
 app.use(
   bodyParser({
@@ -17,6 +18,14 @@ app.use(
     multipart:true
   })
 )
+
+app.use(function *(next){
+  var pathname = url.parse(this.request.url).pathname
+  if(/\.json$/.test(pathname)){
+    this.set('Content-Type','application/json')
+  }
+  yield next
+})
 
 var router=require('./route')
 app.use(router.routes())
