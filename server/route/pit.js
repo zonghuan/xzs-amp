@@ -25,13 +25,22 @@ router.get('/api/pit/html.json',function *(next){
     var query = this.request.query
     var result = yield pit.find({_id:query.pit})
     if(result.length>0){
-      var outputLess = yield thunkLess(result[0].css)
-      var html = _.template(result[0].html)({list:mock})
+      var outputLess = yield thunkLess(`.${result[0].name}{${result[0].css}}`)
+      var html = _.template(`<div class="${result[0].name}">${result[0].html}</div>`)({list:mock})
       this.body=format(null,{code:1,result:`<style>${outputLess.css}</style>${html}`})
     }else{
       this.body = format('坑位ID有误')
     }
   }catch(e){
-    this.body=format(e)
+    this.body = format(e)
+  }
+})
+
+router.get('/api/pit/short.json',function *(next){
+  try{
+    var result = yield pit.find({},{url:1,name:1})
+    this.body = format(null,result)
+  }catch(e){
+    this.body = format(e)
   }
 })

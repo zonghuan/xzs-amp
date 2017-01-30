@@ -25,13 +25,13 @@ tabs.on('click',function(e){
 
 $(()=>{
 
-  tabs.eq(0).trigger('click')
+  // 右侧tab默认选中第一个
+  tabs.eq(2).trigger('click')
 
   var globalIndex=0;
   const pageContent=$('#pageContent')
 
-  // 右侧tab默认选中第一个
-  tabs.eq(1).trigger('click')
+  // 全局设置
 
   // 设置背景色
   $('#configColor').on('change',function(e){
@@ -43,6 +43,10 @@ $(()=>{
   upload($('#backgroundImg'),(img)=>{
     store.dispatch({type:"background-image",value:`url(${img})`})
   })
+
+  // --- 全局设置end ---
+
+ // banner设置
 
   // 上传banner图
   const container=$('#bannerContainer')
@@ -93,6 +97,22 @@ $(()=>{
       type:'banner-del',
       index:element.attr('data-index')
     })
+  })
+
+  // --- banner设置end ---
+
+  // 坑位设置
+
+  var pitContainer = $('#pagePits')
+  var pitPromise = $.ajax('/api/pit/short.json');
+  pitPromise.done(result => {
+    console.log(result)
+    if(result.code===1){
+      var list = result.msg
+      for(var i=0;i<list.length;i++){
+        pitContainer.append(`<img class="page-pits-img" src="${list[i].url}" />`)
+      }
+    }
   })
 
 })
