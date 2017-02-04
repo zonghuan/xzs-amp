@@ -5,15 +5,21 @@ export default React.createClass({
   getInitialState(){
     return {
       list:[],
-      global:{}
+      global:{
+        "backgroundColor":'#ffffff'
+      }
     }
   },
+  changeGlobal(global){
+    this.setState({global})
+  },
   render(){
+    var {global} = this.state
     return (
       <div className="page">
         <div className="page-left">
           <div className="page-make">
-            <div id="pageContent"></div>
+            <div id="pageContent" style={global}></div>
           </div>
         </div>
         <div className="page-right">
@@ -22,18 +28,18 @@ export default React.createClass({
             <li><a href="#">banner设置</a></li>
             <li><a href="#">坑位设置</a></li>
           </ul>
-          <div className="page-config">
+          <div className="page-config" style={{"display":"block"}}>
             <form className="form-horizontal" role="form">
               <div className="form-group">
                 <label className="col-sm-3 control-label">背景色</label>
                 <div className="col-sm-9">
-                  <input type="color" value="#ffffff" id="configColor" placeholder="Email" />
+                  <input type="color" value={global.backgroundColor} onChange={e=>{this.changeGlobal({"backgroundColor":e.target.value})}} />
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-sm-3 control-label">背景图片</label>
                 <div className="col-sm-9">
-                  <input type="file" id="backgroundImg" />
+                  <input type="file"/>
                 </div>
               </div>
             </form>
