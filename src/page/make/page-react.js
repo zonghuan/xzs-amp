@@ -4,17 +4,15 @@ import Upload from 'widget/upload/upload-react.js'
 import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
 import Store from 'widget/store'
+import Page from 'widget/page'
 
 var {bannerStore} = Store
-console.log(bannerStore)
 
 export default React.createClass({
   getInitialState(){
     return {
       tab:1,
-
       banners:[],
-
       list:[],
       global:{
         "backgroundColor":'#ffffff',
@@ -42,17 +40,42 @@ export default React.createClass({
     this.setState({banners})
     bannerStore.set(result)
   },
+  // 右侧删除banner
+  delectBanner(img){
+    var {banners} = this.state
+    this.setState({banners:banners.filter(image=>image!=img)})
+    bannerStore.del(img)
+  },
+  dragBanner(e,img){
+    e.dataTransfer.setData("bannerImg",img)
+  },
+  // 拖放东西到左侧的页面上
+  dropPage(e){
+    var img = e.dataTransfer.getData("bannerImg")
+    var {list} = this.state
+    list = Object.assign([],list)
+    if(img){
+      list.push({type:"banner",img})
+    }
+    this.setState({list})
+  },
+  // 左侧删除banner
+  deletePageBanner(index){
+    this.setState({list:this.state.list.filter((item,idx)=>idx!==index)})
+  },
   changeTab(tab){
     this.setState({tab})
   },
   render(){
-    var {global,tab,banners} = this.state
+    var {global,tab,banners,list} = this.state
 
     return (
       <div className="page">
         <div className="page-left">
           <div className="page-make">
-            <div id="pageContent" style={global}></div>
+            <div id="pageContent" onDragOver={e=>e.preventDefault()} onDrop={e=>this.dropPage(e)} style={global}>
+              <Page list={list} onDeleteBanner={e=>this.deletePageBanner(e)}/>
+            </div>
           </div>
         </div>
         <div className="page-right">
@@ -85,8 +108,8 @@ export default React.createClass({
               <div className="banner-container">
                 {banners.map(img=>(
                   <div key={img} className="banner-item">
-                    <a className="banner-del">x</a>
-                    <img draggable className="banner-img" src={img} />
+                    <a className="banner-del" onClick={e=>{this.delectBanner(img)}}>x</a>
+                    <img draggable onDragStart={e=>{this.dragBanner(e,img)}} className="banner-img" src={img} />
                   </div>
                 ))}
               </div>
