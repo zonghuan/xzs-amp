@@ -4,6 +4,6 @@ var format=require('../util/format.js')
 
 router.post('/api/upload.json',function *(next){
   const info=this.request.body.files.filename;
-  const imgPath='resource/'+path.basename(info.path);
+  const imgPath=path.basename(info.path);
   this.body=format(null,imgPath);
 })

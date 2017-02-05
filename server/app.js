@@ -11,7 +11,7 @@ var url = require('url')
 app.use(
   bodyParser({
     formidable:{
-      uploadDir: path.join(process.cwd(),'resource'),
+      uploadDir: path.join(process.cwd(),'dist'),
       keepExtensions:true
     },
     formLimit:"1024kb",
@@ -31,9 +31,7 @@ var router=require('./route')
 app.use(router.routes())
   .use(router.allowedMethods());
 
-if(!isDebug){
-  app.use(require('koa-static')('dist'))
-}else{
+if(isDebug){
   app.use(proxy({
     proxy_rules:[
       {
@@ -45,15 +43,7 @@ if(!isDebug){
     ]
   }))
 }
-app.use(function *(next){
-  var rootPath='resource';
-  var urlPath=this.path;
-  if(urlPath.indexOf(rootPath)!==-1){
-    yield send(this, urlPath.replace(rootPath+'/',''), { root: path.join(process.cwd(),rootPath) });
-  }else{
-    yield next;
-  }
-})
+app.use(require('koa-static')('dist'))
 
 app.listen(config.port,()=>{
   console.log('listening on '+config.port)

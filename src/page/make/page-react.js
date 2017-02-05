@@ -1,20 +1,35 @@
 import React from 'react'
 import './make.less'
+import Upload from 'widget/upload/upload-react.js'
+import Nav from 'react-bootstrap/lib/Nav'
+import NavItem from 'react-bootstrap/lib/NavItem'
 
 export default React.createClass({
   getInitialState(){
     return {
+      tab:0,
       list:[],
       global:{
-        "backgroundColor":'#ffffff'
+        "backgroundColor":'#ffffff',
+        'backgroundImage':''
       }
     }
   },
   changeGlobal(global){
     this.setState({global})
   },
-  render(){
+  uploadBackgroundImage(result){
     var {global} = this.state
+    global = Object.assign({},global)
+    global.backgroundImage = result?`url(${result})`:'none'
+    this.setState({global})
+  },
+  changeTab(tab){
+    this.setState({tab})
+  },
+  render(){
+    var {global,tab} = this.state
+
     return (
       <div className="page">
         <div className="page-left">
@@ -23,12 +38,12 @@ export default React.createClass({
           </div>
         </div>
         <div className="page-right">
-          <ul className="nav nav-tabs nav-right" id="rightTab" role="tablist">
-            <li><a href="#">页面设置</a></li>
-            <li><a href="#">banner设置</a></li>
-            <li><a href="#">坑位设置</a></li>
-          </ul>
-          <div className="page-config" style={{"display":"block"}}>
+          <Nav className="nav nav-tabs nav-right" activeKey={tab} onSelect={e=>{this.changeTab(e)}}>
+            <NavItem eventKey={0}>页面设置</NavItem>
+            <NavItem eventKey={1}>banner设置</NavItem>
+            <NavItem eventKey={2}>坑位设置</NavItem>
+          </Nav>
+          {tab===0&&<div className="page-config">
             <form className="form-horizontal" role="form">
               <div className="form-group">
                 <label className="col-sm-3 control-label">背景色</label>
@@ -39,22 +54,22 @@ export default React.createClass({
               <div className="form-group">
                 <label className="col-sm-3 control-label">背景图片</label>
                 <div className="col-sm-9">
-                  <input type="file"/>
+                  <Upload onUpload={e=>{this.uploadBackgroundImage(e)}}/>
                 </div>
               </div>
             </form>
-          </div>
-          <div className="page-config">
+          </div>}
+          {tab===1&&<div className="page-config">
             <div className="form-group">
               <div className="page-banner">
                 <input type="file" id="bannerImg" />
               </div>
               <div className="banner-container" id="bannerContainer"></div>
             </div>
-          </div>
-          <div className="page-config">
+          </div>}
+          {tab===2&&<div className="page-config">
             <div id="pagePits" className="page-pits"></div>
-          </div>
+          </div>}
         </div>
       </div>
     )
