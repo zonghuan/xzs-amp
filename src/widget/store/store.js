@@ -1,6 +1,6 @@
 
 const bannerSign='banner';
-const banner={
+const bannerStore={
   set(url){
     var list=this.get()
     list.push(url)
@@ -17,5 +17,5 @@ const banner={
 };
 
 export default {
-  banner
+  bannerStore
 }

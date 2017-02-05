@@ -3,17 +3,28 @@ import './make.less'
 import Upload from 'widget/upload/upload-react.js'
 import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
+import Store from 'widget/store'
+
+var {bannerStore} = Store
+console.log(bannerStore)
 
 export default React.createClass({
   getInitialState(){
     return {
-      tab:0,
+      tab:1,
+
+      banners:[],
+
       list:[],
       global:{
         "backgroundColor":'#ffffff',
         'backgroundImage':''
       }
+
     }
+  },
+  componentDidMount(){
+    this.setState({banners:bannerStore.get()})
   },
   changeGlobal(global){
     this.setState({global})
@@ -24,11 +35,18 @@ export default React.createClass({
     global.backgroundImage = result?`url(${result})`:'none'
     this.setState({global})
   },
+  uploadBanner(result){
+    var {banners} = this.state
+    banners = Object.assign([],banners)
+    banners.push(result)
+    this.setState({banners})
+    bannerStore.set(result)
+  },
   changeTab(tab){
     this.setState({tab})
   },
   render(){
-    var {global,tab} = this.state
+    var {global,tab,banners} = this.state
 
     return (
       <div className="page">
@@ -62,9 +80,16 @@ export default React.createClass({
           {tab===1&&<div className="page-config">
             <div className="form-group">
               <div className="page-banner">
-                <input type="file" id="bannerImg" />
+                <Upload placeholder="上传banner" onUpload={e=>{this.uploadBanner(e)}} />
               </div>
-              <div className="banner-container" id="bannerContainer"></div>
+              <div className="banner-container">
+                {banners.map(img=>(
+                  <div key={img} className="banner-item">
+                    <a className="banner-del">x</a>
+                    <img draggable className="banner-img" src={img} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>}
           {tab===2&&<div className="page-config">
