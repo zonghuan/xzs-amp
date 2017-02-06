@@ -9,7 +9,7 @@ module.exports = {
   },
   pagePannelDel:{
     position:"absolute",
-    right:"0px",
+    left:"0px",
     top:"0px",
     backgroundColor:"#000",
     color:"#fff",

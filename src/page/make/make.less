@@ -1,3 +1,6 @@
+@shadow : 0 0 3px rgba(0,0,0,.3);
+
+
 body a{
   color:#777;
 }
@@ -65,7 +68,7 @@ body .page-config .control-label{
   height:595px;
   overflow: auto;
   .banner-item{
-    box-shadow:0 0 5px rgba(0,0,0,.3);
+    box-shadow:@shadow;
     position:relative;
     width:350px;
     margin:5px auto 20px;
@@ -92,7 +95,7 @@ body .page-config .control-label{
     }
     .banner-del:hover,.banner-del:focus{
       text-decoration: none;
-      box-shadow:0 0 5px rgba(0,0,0,.3);
+      box-shadow:@shadow;
     }
   }
 }
@@ -100,9 +103,19 @@ body .page-config .control-label{
 /* ---- */
 
 /* 坑位 */
-.page-pits-img{
+.page-pits-wrap{
+  position:relative;
+  box-shadow:@shadow;
+}
+.page-pits-wrap > img{
   display: block;
   width:419px;
   height:auto;
   margin:10 auto;
+}
+.page-pits-wrap > span{
+  position:absolute;
+  background-color:#fff;
+  color:#000;
+  padding:3px;
 }
