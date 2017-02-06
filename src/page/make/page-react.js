@@ -102,6 +102,8 @@ var eventGroup = {
     promise.done(result=>{
       if(result.code === 1){
         msg.show('添加页面成功')
+      }else{
+        msg.show(result.msg)
       }
     })
   },
