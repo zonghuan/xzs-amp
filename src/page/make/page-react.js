@@ -3,6 +3,8 @@ import './make.less'
 import Upload from 'widget/upload/upload-react.js'
 import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
+import Button from 'react-bootstrap/lib/Button'
+import FormControl from 'react-bootstrap/lib/FormControl'
 import Store from 'widget/store'
 import Page from 'widget/page'
 
@@ -61,6 +63,7 @@ var eventGroup = {
       this.setState({list})
     }
   },
+  // 添加坑位
   appendPit(e){
     var list = Object.assign([],this.state.list)
     var result = Object.assign({},e)
@@ -76,20 +79,27 @@ var eventGroup = {
   // 右侧点击切换tab
   changeTab(tab){
     this.setState({tab})
+  },
+
+  // 提交页面
+  submit(){
+
   }
+
 }
 
 // 生命周期
 var lifeGroup = {
   getInitialState(){
     return {
-      tab:2,
+      tab:0,
       banners:[],
       pits:[],
 
       pitModal:false,
       pitModalData:{},
 
+      name:'',
       list:[],
       globalStyle:{
         "backgroundColor":'#ffffff',
@@ -136,6 +146,17 @@ var lifeGroup = {
           {tab===0&&<div className="page-config">
             <form className="form-horizontal" role="form">
               <div className="form-group">
+                <label className="col-sm-3 control-label" style={{"marginTop":"7px"}}>页面名称</label>
+                <div className="col-sm-9">
+                  <FormControl
+                    type="text"
+                    value={this.state.name}
+                    onChange={e=>this.setState({name:e.target.value})}
+                    placeholder="页面名称,不可重名,如czh20170605"
+                  />
+                </div>
+              </div>
+              <div className="form-group">
                 <label className="col-sm-3 control-label">背景色</label>
                 <div className="col-sm-9">
                   <input type="color" value={globalStyle.backgroundColor} onChange={e=>{this.changeGlobal({"backgroundColor":e.target.value})}} />
@@ -181,6 +202,9 @@ var lifeGroup = {
           onHide = {e=>this.setState({pitModal:false})}
           onSuccess = {e=>this.appendPit(e)}
         />
+        <div className="page-buttons">
+          <Button onClick={e=>this.submit(e)} bsStyle="primary">保存页面</Button>
+        </div>
       </div>
     )
   }

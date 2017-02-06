@@ -9,7 +9,7 @@ var zeptoJs = fs.readFileSync(zeptoPath)
 var remPath = path.join(nodeModulesPath,'dwd-rem/rem.js')
 var remJs = fs.readFileSync(remPath)
 
-module.exports = (html) => {
+module.exports = (html,globalStyle,name,desc) => {
   return (
     `<html>
       <head>

@@ -22,7 +22,7 @@ app.use(
 app.use(function *(next){
   var pathname = url.parse(this.request.url).pathname
   if(/\.json$/.test(pathname)){
-    this.set('Content-Type','application/json')
+    this.set('Content-Type','application/json;charset=utf-8')
   }
   yield next
 })
