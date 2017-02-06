@@ -8,6 +8,8 @@ var connection=mongoose.createConnection(config.mongoose, function(err) {
   }
 })
 var pit='Pit'
+var page='Page'
 module.exports={
-  [pit]:connection.model(pit, require('./pit.js'))
+  [pit]:connection.model(pit, require('./pit.js')),
+  [page]:connection.model(page, require('./page.js'))
 }
