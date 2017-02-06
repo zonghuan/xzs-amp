@@ -9,10 +9,12 @@ import FormGroup from 'react-bootstrap/lib/FormGroup'
 import Store from 'widget/store'
 import Page from 'widget/page'
 import msg from 'widget/msg'
-
+import {getUrlParam} from 'xzs-util'
 import PitModal from './pit-modal.js'
 
 var {bannerStore} = Store
+
+var id = getUrlParam('id')
 
 //各种事件
 var eventGroup = {
@@ -101,7 +103,11 @@ var eventGroup = {
     })
     promise.done(result=>{
       if(result.code === 1){
-        msg.show('添加页面成功')
+        var timeout = 1;
+        msg.show(`添加页面成功,${timeout}秒后跳转`)
+        window.setTimeout(()=>{
+          window.location.href=`/make.html?id=${result.msg._id}`;
+        },timeout*1000)
       }else{
         msg.show(result.msg)
       }
@@ -236,6 +242,8 @@ var lifeGroup = {
         />
         <div className="page-buttons">
           <Button onClick={e=>this.submit(e)} bsStyle="primary">保存页面</Button>
+          {' '}
+          {id&&<Button bsStyle='primary'>生成页面</Button>}
         </div>
       </div>
     )
