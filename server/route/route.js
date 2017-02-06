@@ -9,4 +9,7 @@ require('./pit.js')
 // 预览接口
 require('./preview.js')
 
+// 页面接口
+require('./page.js')
+
 module.exports=router

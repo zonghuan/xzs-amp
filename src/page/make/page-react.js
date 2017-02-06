@@ -5,8 +5,10 @@ import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
 import Button from 'react-bootstrap/lib/Button'
 import FormControl from 'react-bootstrap/lib/FormControl'
+import FormGroup from 'react-bootstrap/lib/FormGroup'
 import Store from 'widget/store'
 import Page from 'widget/page'
+import msg from 'widget/msg'
 
 import PitModal from './pit-modal.js'
 
@@ -83,7 +85,32 @@ var eventGroup = {
 
   // 提交页面
   submit(){
-
+    var nameState = this.getValidationState()
+    if(nameState === 'error'){
+      return msg.show('请填写页面名称')
+    }
+    var {list,globalStyle,name} = this.state
+    if(list.length === 0){
+      return msg.show('页面没有内容')
+    }
+    var promise = $.ajax('/api/page/create.json',{
+      method:'post',
+      data:{
+        list,globalStyle,name
+      }
+    })
+    promise.done(result=>{
+      if(result.code === 1){
+        msg.show('添加页面成功')
+      }
+    })
+  },
+  getValidationState(){
+    var {name} = this.state
+    if(name===''){
+      return 'error'
+    }
+    return 'success'
   }
 
 }
@@ -145,17 +172,20 @@ var lifeGroup = {
           </Nav>
           {tab===0&&<div className="page-config">
             <form className="form-horizontal" role="form">
-              <div className="form-group">
+              <FormGroup
+                validationState={this.getValidationState()}
+              >
                 <label className="col-sm-3 control-label" style={{"marginTop":"7px"}}>页面名称</label>
                 <div className="col-sm-9">
                   <FormControl
                     type="text"
                     value={this.state.name}
                     onChange={e=>this.setState({name:e.target.value})}
-                    placeholder="页面名称,不可重名,如czh20170605"
+                    placeholder="页面名称,不可重名,禁空格,如czh20170605"
                   />
+                  <FormControl.Feedback />
                 </div>
-              </div>
+              </FormGroup>
               <div className="form-group">
                 <label className="col-sm-3 control-label">背景色</label>
                 <div className="col-sm-9">
