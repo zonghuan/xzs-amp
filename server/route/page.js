@@ -9,11 +9,13 @@ var existsFile = thunkify(fs.exists)
 var writeFile = thunkify(fs.writeFile)
 var appendFile = thunkify(fs.appendFile)
 
+// 获取webpack生成的页面  生成页面时不重名  防止和发布的页面冲突
 var illegalNames = (()=>{
   var pagePath = path.join(process.cwd(),'src','page')
   return fs.readdirSync(pagePath)
 })()
 
+// 创建页面
 router.post('/api/page/create.json',function *(next){
   try{
     var {body} = this.request
@@ -31,14 +33,14 @@ router.post('/api/page/create.json',function *(next){
   }
 })
 
-var Page = require('../../src/widget/page');
+// 发布页面
+var Page = require('../../src/widget/page')
 var getPage = require('../util/getPage.js')
-
-router.get('/api/page/createHtml.json',function *(next){
+router.post('/api/page/createHtml.json',function *(next){
   try{
     var ReactDOMServer = require('react-dom/server')
-    var {query} = this.request
-    if(!query._id){
+    var {body} = this.request
+    if(!body._id){
       return this.body = format("请输入id")
     }
     var result = yield page.find({_id:query._id})
@@ -59,6 +61,22 @@ router.get('/api/page/createHtml.json',function *(next){
       yield appendFile(distFile,html,'utf8')
     }
     this.body = format(null,'页面发布成功')
+  }catch(e){
+    this.body = format(e)
+  }
+})
+
+router.get('/api/page/detail.json',function *(next){
+  try{
+    var {query} = this.request
+    if(!query._id){
+      return this.body = format('请填写_id')
+    }
+    var search = yield page.find({_id:query._id})
+    if(search.length === 0){
+      return this.body = format('有重名的页面')
+    }
+    return this.body = format(null,search[0])
   }catch(e){
     this.body = format(e)
   }
