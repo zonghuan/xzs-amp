@@ -21,7 +21,7 @@ router.post('/api/page/create.json',function *(next){
     if(search.length>0){
       return this.body = format('有重名的页面')
     }
-    if(illegalNames.indexOf(name)!=='-1'){
+    if(illegalNames.indexOf(body.name)!==-1){
       return this.body = format('非法的页面名称')
     }
     var result = yield page.create(body)
@@ -47,7 +47,7 @@ router.get('/api/page/createHtml.json',function *(next){
     }
     result = result[0]
     var html=getPage(
-      ReactDOMServer.renderToString(<Page list={result.list}/>),
+      ReactDOMServer.renderToString(<Page list={result.list} online/>),
       result.globalStyle,
       result.name
     )
