@@ -1,3 +1,7 @@
+require("babel-register")({
+    presets: ['react']
+});
+
 var koa=require('koa')
 var app=koa()
 var proxy = require('koa-proxy2')

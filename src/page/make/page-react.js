@@ -95,23 +95,28 @@ var eventGroup = {
     if(list.length === 0){
       return msg.show('页面没有内容')
     }
-    var promise = $.ajax('/api/page/create.json',{
-      method:'post',
-      data:{
-        list,globalStyle,name
-      }
-    })
-    promise.done(result=>{
-      if(result.code === 1){
-        var timeout = 1;
-        msg.show(`添加页面成功,${timeout}秒后跳转`)
-        window.setTimeout(()=>{
-          window.location.href=`/make.html?id=${result.msg._id}`;
-        },timeout*1000)
-      }else{
-        msg.show(result.msg)
-      }
-    })
+    if(!id){
+      var promise = $.ajax('/api/page/create.json',{
+        method:'post',
+        data:{
+          list,globalStyle,name
+        }
+      })
+      promise.done(result=>{
+        if(result.code === 1){
+          var timeout = 1;
+          msg.show(`添加页面成功,${timeout}秒后跳转`)
+          window.setTimeout(()=>{
+            window.location.href=`/make.html?id=${result.msg._id}`;
+          },timeout*1000)
+        }else{
+          msg.show(result.msg)
+        }
+      })
+    }
+  },
+  createHtml(){
+    
   },
   getValidationState(){
     var {name} = this.state

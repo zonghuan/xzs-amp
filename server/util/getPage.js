@@ -13,7 +13,7 @@ module.exports = (html,globalStyle,name,desc) => {
   return (
     `<html>
       <head>
-        <title>预览</title>
+        <title>${name}</title>
         <script type="text/javascript">${remJs}</script>
         <script type="text/javascript">${zeptoJs}</script>
         <style>
