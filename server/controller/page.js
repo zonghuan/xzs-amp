@@ -6,9 +6,11 @@ module.exports={
   },
   update(param){
     if(!param._id){
-      return Promise.reject()
+      return Promise.reject('请填写id')
     }
-    return Page.findOneAndUpdate({_id:param._id},param)
+    var _id = param._id
+    delete param._id
+    return Page.findOneAndUpdate({_id},param)
   },
   create(){
     return Page.create(arguments[0])

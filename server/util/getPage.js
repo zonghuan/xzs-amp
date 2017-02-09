@@ -13,6 +13,7 @@ module.exports = (html,globalStyle,name,desc) => {
   return (
     `<html>
       <head>
+        <meta charset="UTF-8">
         <title>${name}</title>
         <script type="text/javascript">${remJs}</script>
         <script type="text/javascript">${zeptoJs}</script>
@@ -23,6 +24,9 @@ module.exports = (html,globalStyle,name,desc) => {
           p,body,html{
             margin:0;
             padding:0;
+          }
+          .client-hidden{
+            display:none;
           }
         </style>
       </head>

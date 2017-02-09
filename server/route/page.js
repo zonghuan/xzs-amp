@@ -5,7 +5,11 @@ var page = require('../controller/page.js')
 var React = require('react')
 var thunkify = require('thunkify')
 var fs = require('fs')
-var existsFile = thunkify(fs.exists)
+var existsFile = (distFile) => (callback) =>{
+  fs.exists(distFile,(exist)=>{
+    callback(null,exist)
+  })
+}
 var writeFile = thunkify(fs.writeFile)
 var appendFile = thunkify(fs.appendFile)
 
@@ -33,6 +37,17 @@ router.post('/api/page/create.json',function *(next){
   }
 })
 
+// 保存页面
+router.post('/api/page/update.json',function *(next){
+  try{
+    var {_id,list,globalStyle} = this.request.body
+    var result =yield page.update({_id,list,globalStyle})
+    this.body = format(null,result)
+  }catch(e){
+    this.body = format(e)
+  }
+})
+
 // 发布页面
 var Page = require('../../src/widget/page')
 var getPage = require('../util/getPage.js')
@@ -43,17 +58,17 @@ router.post('/api/page/createHtml.json',function *(next){
     if(!body._id){
       return this.body = format("请输入id")
     }
-    var result = yield page.find({_id:query._id})
+    var result = yield page.find({_id:body._id})
     if(result.length===0){
       return this.body = format('没有找到相应page')
     }
     result = result[0]
+
     var html=getPage(
-      ReactDOMServer.renderToString(<Page list={result.list} online/>),
+      ReactDOMServer.renderToString(<Page list={result.list}/>),
       result.globalStyle,
       result.name
     )
-
     var distFile = path.join(process.cwd(),'dist',result.name+'.html')
     if(yield existsFile(distFile)){
       yield writeFile(distFile,html,'utf8')

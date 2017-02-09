@@ -113,10 +113,42 @@ var eventGroup = {
           msg.show(result.msg)
         }
       })
+    }else{
+      var updatePromise = $.ajax('/api/page/update.json',{
+        method:'post',
+        data:{
+          _id:id,list,globalStyle,name
+        }
+      })
+      updatePromise.done(result=>{
+        if(result.code === 1){
+          msg.show('修改页面成功')
+        }else{
+          msg.show(result.msg)
+        }
+      })
     }
   },
   createHtml(){
-    
+    this.sendingCreateRequest = this.sendingCreateRequest || false
+    if(this.sendingCreateRequest){
+      return;
+    }
+    this.sendingCreateRequest = true
+    var promise = $.ajax('/api/page/createHtml.json',{
+      data:{_id:id},
+      method:'post'
+    })
+    promise.done(result=>{
+      if(result.code===1){
+        msg.show('页面发布成功')
+      }else{
+        msg.show(result.msg)
+      }
+    })
+    promise.always(()=>{
+      this.sendingCreateRequest = false
+    })
   },
   getValidationState(){
     var {name} = this.state
@@ -151,13 +183,28 @@ var lifeGroup = {
   componentDidMount(){
     this.setState({banners:bannerStore.get()})
 
-    // 获取坑位简洁列表
+    // 获取坑位列表
     var promise = $.ajax('/api/pit/short.json')
     promise.done(result=>{
       if(result.code===1){
         this.setState({pits:result.msg})
       }
     })
+
+    // 如果是修改  回填数据
+    if(id){
+      var detailPromise = $.ajax('/api/page/detail.json',{
+        data:{_id:id}
+      })
+      detailPromise.done(result=>{
+        if(result.code === 1){
+          var {name,list,globalStyle} = result.msg
+          this.setState({
+            name,list,globalStyle
+          })
+        }
+      })
+    }
 
   },
 
@@ -193,7 +240,7 @@ var lifeGroup = {
                   <FormControl
                     type="text"
                     value={this.state.name}
-                    onChange={e=>this.setState({name:e.target.value})}
+                    onChange={e=>!id&&this.setState({name:e.target.value})}
                     placeholder="页面名称,不可重名,禁空格,如czh20170605"
                   />
                   <FormControl.Feedback />
@@ -248,7 +295,7 @@ var lifeGroup = {
         <div className="page-buttons">
           <Button onClick={e=>this.submit(e)} bsStyle="primary">保存页面</Button>
           {' '}
-          {id&&<Button bsStyle='primary'>生成页面</Button>}
+          {id&&<Button onClick={e=>this.createHtml(e)} bsStyle='primary'>发布页面</Button>}
         </div>
       </div>
     )
