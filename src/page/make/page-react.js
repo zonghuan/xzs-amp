@@ -91,7 +91,7 @@ var eventGroup = {
     if(nameState === 'error'){
       return msg.show('请填写页面名称')
     }
-    var {list,globalStyle,name} = this.state
+    var {list,globalStyle,name,desc} = this.state
     if(list.length === 0){
       return msg.show('页面没有内容')
     }
@@ -99,7 +99,7 @@ var eventGroup = {
       var promise = $.ajax('/api/page/create.json',{
         method:'post',
         data:{
-          list,globalStyle,name
+          list,globalStyle,name,desc
         }
       })
       promise.done(result=>{
@@ -117,7 +117,7 @@ var eventGroup = {
       var updatePromise = $.ajax('/api/page/update.json',{
         method:'post',
         data:{
-          _id:id,list,globalStyle,name
+          _id:id,list,globalStyle,name,desc
         }
       })
       updatePromise.done(result=>{
@@ -172,6 +172,7 @@ var lifeGroup = {
       pitModalData:{},
 
       name:'',
+      desc:'',
       list:[],
       globalStyle:{
         "backgroundColor":'#000000',
@@ -198,9 +199,9 @@ var lifeGroup = {
       })
       detailPromise.done(result=>{
         if(result.code === 1){
-          var {name,list,globalStyle} = result.msg
+          var {name,list,globalStyle,desc} = result.msg
           this.setState({
-            name,list,globalStyle
+            name,list,globalStyle,desc
           })
         }
       })
@@ -244,6 +245,17 @@ var lifeGroup = {
                     placeholder="页面名称,不可重名,禁空格,如czh20170605"
                   />
                   <FormControl.Feedback />
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <label className="col-sm-3 control-label" style={{"marginTop":"7px"}}>页面描述</label>
+                <div className="col-sm-9">
+                  <FormControl
+                    componentClass="textarea"
+                    value={this.state.desc}
+                    onChange={e=>this.setState({desc:e.target.value})}
+                    placeholder="页面描述"
+                  />
                 </div>
               </FormGroup>
               <div className="form-group">

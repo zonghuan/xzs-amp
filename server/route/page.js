@@ -40,8 +40,8 @@ router.post('/api/page/create.json',function *(next){
 // 保存页面
 router.post('/api/page/update.json',function *(next){
   try{
-    var {_id,list,globalStyle} = this.request.body
-    var result =yield page.update({_id,list,globalStyle})
+    var {_id,list,globalStyle,desc} = this.request.body
+    var result =yield page.update({_id,list,globalStyle,desc})
     this.body = format(null,result)
   }catch(e){
     this.body = format(e)
@@ -81,6 +81,7 @@ router.post('/api/page/createHtml.json',function *(next){
   }
 })
 
+// 页面详情
 router.get('/api/page/detail.json',function *(next){
   try{
     var {query} = this.request
@@ -92,6 +93,16 @@ router.get('/api/page/detail.json',function *(next){
       return this.body = format('有重名的页面')
     }
     return this.body = format(null,search[0])
+  }catch(e){
+    this.body = format(e)
+  }
+})
+
+// 页面列表
+router.get('/api/page/short.json',function *(next){
+  try{
+    var result = yield page.find({},{updateTime:1,name:1,createTime:1,desc:1})
+    this.body = format(null,result)
   }catch(e){
     this.body = format(e)
   }
