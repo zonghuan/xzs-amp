@@ -22,6 +22,6 @@ module.exports = {
     borderRadius:"50%",
     verticalAlign: "middle",
     cursor:"pointer",
-    zIndex:9999
+    zIndex:10
   }
 }
