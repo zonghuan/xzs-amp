@@ -1,6 +1,6 @@
 import _ from 'underscore'
 import "widget/common"
-import createNav from 'widget/nav'
+import Nav from 'widget/nav/nav-react.js'
 import html from './pit.html'
 import "./pit.less"
 import "codemirror/lib/codemirror.css"
@@ -10,11 +10,16 @@ import "codemirror/mode/css/css.js"
 import upload from 'widget/upload'
 import {getUrlParam} from 'xzs-util'
 import dialog from 'widget/dialog'
+import React from 'react'
+import {render} from 'react-dom'
 
 const content=$('#content')
-content.append(createNav('pit'))
 content.append(html)
 
+var body = document.getElementsByTagName('body')[0]
+var header = document.createElement('div')
+render(<Nav select="pit"/>,header)
+body.insertBefore(header,content[0])
 
 $(()=>{
   var htmlEditor = CodeMirror.fromTextArea(document.getElementById('htmlEditor'),{

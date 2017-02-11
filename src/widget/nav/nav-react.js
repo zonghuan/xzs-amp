@@ -11,7 +11,7 @@ export default React.createClass({
           </div>
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <li className={select==='make'?'active':''}><a href="/make.html">页面</a></li>
+              <li className={select==='make'?'active':''}><a href="/pageList.html">页面</a></li>
               <li className={select==='pit'?'active':''}><a href="/pit.html">坑位</a></li>
             </ul>
           </div>
