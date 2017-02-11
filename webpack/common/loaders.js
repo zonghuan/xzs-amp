@@ -34,7 +34,7 @@ module.exports=[
   {
     test: /\.(png|jpg|gif)$/,
     exclude: /node_modules/,
-    loader: 'url-loader?limit=8192&name=[name]_[hash].[ext]'
+    loader: 'url-loader?limit=24000&name=[name]_[hash].[ext]'
   },
   {
     test: /\.html$/,
