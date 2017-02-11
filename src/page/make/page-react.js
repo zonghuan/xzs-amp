@@ -174,7 +174,7 @@ var lifeGroup = {
       name:'',
       list:[],
       globalStyle:{
-        "backgroundColor":'#ffffff',
+        "backgroundColor":'#000000',
         'backgroundImage':''
       }
 
