@@ -17,12 +17,10 @@ export default React.createClass({
     this.setState({data:this.props.pitModalData})
   },
   componentWillReceiveProps(props){
-    if(JSON.stringify(this.props)!==JSON.stringify(props)){
-      this.setState({data:props.pitModalData})
-    }
-    if(!this.props.pitModal&&props.pitModal){
-      this.setState({goodIds:''})
-    }
+    this.setState({
+      data:props.pitModalData,
+      goodIds:props.goodIds||''
+    })
   },
   getValidationState(){
     var {goodIds} = this.state
@@ -45,6 +43,7 @@ export default React.createClass({
     if(validState === 'error'){
       return false
     }
+    console.log(data)
     var promise = $.ajax('/api/pit/html.json',{
       data:{
         ids:goodIds,
@@ -53,7 +52,7 @@ export default React.createClass({
     })
     promise.done(result=>{
       if(result.code===1){
-        onSuccess&&onSuccess({data,html:result.msg})
+        onSuccess&&onSuccess({data,html:result.msg,goodIds})
         onHide&&onHide()
       }
     })

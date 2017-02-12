@@ -29,7 +29,7 @@ export default React.createClass({
       <div className="wrap">
         {list.map(item=>(
           <div key={item.name} className="square">
-            <Panel header={"页面名称 : "+item.name}>
+            <Panel header={"页面名称 : "+item.name} style={{marginBottom:0}}>
               <div className="line">{"描述 : "+(item.desc||'无')}</div>
               <div className="line">{'创建日期 : '+formatDate(item.createTime)}</div>
               <div className="line">{'更新日期 : '+formatDate(item.updateTime)}</div>

@@ -75,10 +75,22 @@ var eventGroup = {
     list.push(result)
     this.setState({list})
   },
+
   // 左侧删除banner
   deletePageBanner(index){
     this.setState({list:this.state.list.filter((item,idx)=>idx!==index)})
   },
+
+  // 左侧修改坑位
+  editPagePit(data,index){
+    this.setState({
+      pitEditModal:true,
+      pitEditModalData:data.data,
+      pitEditIndex:index,
+      pitEditGoodIds:data.goodIds
+    })
+  },
+
 
   // 右侧点击切换tab
   changeTab(tab){
@@ -168,8 +180,15 @@ var lifeGroup = {
       banners:[],
       pits:[],
 
+      // 添加坑位
       pitModal:false,
       pitModalData:{},
+
+      // 修改坑位
+      pitEditModal:false,
+      pitEditModalData:{},
+      pitEditIndex:0,
+      pitEditGoodIds:'',
 
       name:'',
       desc:'',
@@ -213,7 +232,8 @@ var lifeGroup = {
 
     var {
       globalStyle,tab,banners,list,pits,
-      pitModal,pitModalData
+      pitModal,pitModalData,
+      pitEditModalData,pitEditModal,pitEditGoodIds
     } = this.state
 
     return (
@@ -221,7 +241,11 @@ var lifeGroup = {
         <div className="page-left">
           <div className="page-make">
             <div id="pageContent" onDragOver={e=>e.preventDefault()} onDrop={e=>this.dropPage(e)} style={globalStyle}>
-              <Page list={list} onDeleteBanner={e=>this.deletePageBanner(e)}/>
+              <Page
+                list={list}
+                onEdit={(data,index)=>this.editPagePit(data,index)}
+                onDeleteBanner={e=>this.deletePageBanner(e)}
+              />
             </div>
           </div>
         </div>
@@ -252,7 +276,7 @@ var lifeGroup = {
                 <div className="col-sm-9">
                   <FormControl
                     componentClass="textarea"
-                    value={this.state.desc}
+                    value={this.state.desc||''}
                     onChange={e=>this.setState({desc:e.target.value})}
                     placeholder="页面描述"
                   />
@@ -303,6 +327,13 @@ var lifeGroup = {
           pitModal = {pitModal}
           onHide = {e=>this.setState({pitModal:false})}
           onSuccess = {e=>this.appendPit(e)}
+        />
+        <PitModal
+          pitModalData = {pitEditModalData}
+          pitModal = {pitEditModal}
+          goodIds = {pitEditGoodIds}
+          onHide = {e=>this.setState({pitEditModal:false})}
+          onSuccess = {e=>console.log(e)}
         />
         <div className="page-buttons">
           <Button onClick={e=>this.submit(e)} bsStyle="primary">保存页面</Button>

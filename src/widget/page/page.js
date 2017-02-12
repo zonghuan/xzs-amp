@@ -3,21 +3,33 @@ var {bannerStyle,pagePannel,pagePannelDel} = require('./style.js')
 
 module.exports = React.createClass({
   render(){
-    var {list,onDeleteBanner} = this.props
+    var {list,onDeleteBanner,onEdit} = this.props
     return (
       <div>
         {list.map((item, index)=>{
-          return (
-            <div key={index} style={pagePannel}>
-              <a className="client-hidden" style={pagePannelDel} onClick={e=>onDeleteBanner&&onDeleteBanner(index)}>x</a>
-              {item.type === 'banner'&&(
+          if(item.type === 'banner'){
+            return (
+              <div key={index} style={pagePannel}>
+                <a className="client-hidden panel-del btn-xs btn btn-primary" onClick={e=>onDeleteBanner&&onDeleteBanner(index)}>
+                  <span className="iconfont">&#xe6b4;</span>删除
+                </a>
                 <img style={bannerStyle} src={item.img}/>
-              )}
-              {item.type === 'pit' && (
+              </div>
+            )
+          }
+          if(item.type === 'pit'){
+            return (
+              <div key={index} style={pagePannel}>
+                <a className="client-hidden panel-del btn-xs btn btn-primary" onClick={e=>onDeleteBanner&&onDeleteBanner(index)}>
+                  <span className="iconfont">&#xe6b4;</span>删除
+                </a>
+                <a className="client-hidden panel-edit btn-xs btn btn-primary" onClick={e=>onEdit&&onEdit(item,index)}>
+                  <span className="iconfont">&#xe649;</span>修改
+                </a>
                 <div dangerouslySetInnerHTML={{__html:item.html}}></div>
-              )}
-            </div>
-          )
+              </div>
+            )
+          }
         })}
       </div>
     )
