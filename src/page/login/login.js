@@ -36,7 +36,7 @@ $(()=>{
         if(result.success){
           window.location.href=`/pageList.html?_random=${Math.random()}`;
         }else{
-          dialog(result.msg)
+          dialog(result.msg||result.errorMsg)
         }
       })
       promise.fail(()=>{
