@@ -98,7 +98,10 @@ $(()=>{
     })
     promise.done(result=>{
       if(result.code===1){
-        return dialog('坑位信息不全，不能添加','坑位提示')
+        dialog('坑位添加成功','坑位提示')
+        window.setTimeout(()=>{
+          window.location.href="/pitList.html"
+        },2000)
       }else{
         return dialog(result.msg)
       }

@@ -41,7 +41,7 @@ export default React.createClass({
           </div>
         ))}
         <div className="buttons">
-          <a className="btn-add btn btn-primary" href='/pit.html'>新增页面</a>
+          <a className="btn-add btn btn-primary" href='/pit.html'>新增坑位</a>
         </div>
       </div>
     )
