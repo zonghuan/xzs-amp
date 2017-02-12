@@ -42,6 +42,17 @@ app.use(function *(next){
   yield next
 })
 
+
+app.use(function *(next){
+  var pathname = url.parse(this.request.url).pathname
+  var urlPath = this.request.url
+  if(/\.json$/.test(pathname)&&urlPath!=='/api/login.json'&&!this.session.user){
+    this.body = JSON.stringify({code:5,msg:'session失效'})
+  }else{
+    yield next
+  }
+})
+
 var router=require('./route')
 app.use(router.routes())
   .use(router.allowedMethods());
@@ -59,6 +70,7 @@ if(isDebug){
   }))
 }
 app.use(require('koa-static')('dist'))
+
 
 app.listen(config.port,()=>{
   console.log('listening on '+config.port)

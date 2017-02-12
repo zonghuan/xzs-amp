@@ -2,6 +2,7 @@ import React from 'react'
 import "./list.less"
 import Panel from 'react-bootstrap/lib/Panel'
 import Button from 'react-bootstrap/lib/Button'
+import "widget/common"
 
 var formatDate = (str)=>{
   var date = new Date(str)

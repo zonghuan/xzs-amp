@@ -3,6 +3,7 @@ import "./list.less"
 import Panel from 'react-bootstrap/lib/Panel'
 import Button from 'react-bootstrap/lib/Button'
 import Image from 'react-bootstrap/lib/Image'
+import "widget/common"
 
 var formatDate = (str)=>{
   var date = new Date(str)

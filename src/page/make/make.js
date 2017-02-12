@@ -1,6 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 import _ from 'underscore'
+import "widget/common"
 
 var content = document.getElementById('content')
 
