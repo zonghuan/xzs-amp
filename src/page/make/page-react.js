@@ -27,6 +27,12 @@ var eventGroup = {
     globalStyle.backgroundImage = result?`url(${result})`:'none'
     this.setState({globalStyle})
   },
+  emptyBackgroundImage(){
+    var {globalStyle} = this.state
+    globalStyle = Object.assign({},globalStyle)
+    globalStyle.backgroundImage = 'none'
+    this.setState({globalStyle})
+  },
   uploadBanner(result){
     var {banners} = this.state
     banners = Object.assign([],banners)
@@ -81,7 +87,7 @@ var eventGroup = {
     this.setState({list:this.state.list.filter((item,idx)=>idx!==index)})
   },
 
-  // 左侧修改坑位
+  // 左侧修改坑位弹框
   editPagePit(data,index){
     this.setState({
       pitEditModal:true,
@@ -90,7 +96,15 @@ var eventGroup = {
       pitEditGoodIds:data.goodIds
     })
   },
-
+  // 左侧修改坑位
+  editPit(e){
+    var {pitEditIndex,list} = this.state
+    var result = Object.assign({},e)
+    list = Object.assign([],list)
+    result.type = 'pit'
+    list[pitEditIndex] = result
+    this.setState({list})
+  },
 
   // 右侧点击切换tab
   changeTab(tab){
@@ -292,6 +306,8 @@ var lifeGroup = {
                 <label className="col-sm-3 control-label">背景图片</label>
                 <div className="col-sm-9">
                   <Upload onUpload={e=>{this.uploadBackgroundImage(e)}}/>
+                  {' '}
+                  <a className="btn btn-primary btn-xs" onClick={e=>this.emptyBackgroundImage()} style={{"verticalAlign":"top","position":"relative","top":"3px"}}>删除背景图片</a>
                 </div>
               </div>
             </form>
@@ -333,7 +349,7 @@ var lifeGroup = {
           pitModal = {pitEditModal}
           goodIds = {pitEditGoodIds}
           onHide = {e=>this.setState({pitEditModal:false})}
-          onSuccess = {e=>console.log(e)}
+          onSuccess = {e=>this.editPit(e)}
         />
         <div className="page-buttons">
           <Button onClick={e=>this.submit(e)} bsStyle="primary">保存页面</Button>

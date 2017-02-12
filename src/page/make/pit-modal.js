@@ -43,7 +43,6 @@ export default React.createClass({
     if(validState === 'error'){
       return false
     }
-    console.log(data)
     var promise = $.ajax('/api/pit/html.json',{
       data:{
         ids:goodIds,
