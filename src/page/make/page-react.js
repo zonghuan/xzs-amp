@@ -5,7 +5,10 @@ import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
 import Button from 'react-bootstrap/lib/Button'
 import FormControl from 'react-bootstrap/lib/FormControl'
+import Modal from 'react-bootstrap/lib/Modal'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
+import Radio from 'react-bootstrap/lib/Radio'
+import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import Store from 'widget/store'
 import Page from 'widget/page'
 import msg from 'widget/msg'
@@ -65,6 +68,7 @@ var eventGroup = {
       //  拖放banner
       if(item.type === 'banner'){
         list.push(item)
+        this.setState({bannerModal:true,bannerEditIndex:list.length-1})
       }
       // 拖放坑位 弹出对话框  要求输入商品id
       if(item.type === 'pit'){
@@ -127,6 +131,37 @@ var eventGroup = {
     var flag = list[index+1]
     list[index+1] = list[index]
     list[index] = flag
+    this.setState({list})
+  },
+
+  //修改banner
+  editBanner(index){
+    this.setState({bannerModal:true,bannerEditIndex:index})
+  },
+
+  // 设置banner类型
+  setBType(bType){
+    var {list,bannerEditIndex} = this.state
+    list = Object.assign([],list)
+    list[bannerEditIndex].bType=bType
+    this.setState({list})
+  },
+  setBSkuId(skuId){
+    var {list,bannerEditIndex} = this.state
+    list = Object.assign([],list)
+    list[bannerEditIndex].skuId=skuId
+    this.setState({list})
+  },
+  setBItemId(itemId){
+    var {list,bannerEditIndex} = this.state
+    list = Object.assign([],list)
+    list[bannerEditIndex].itemId=itemId
+    this.setState({list})
+  },
+  setBHref(href){
+    var {list,bannerEditIndex} = this.state
+    list = Object.assign([],list)
+    list[bannerEditIndex].href=href
     this.setState({list})
   },
   // 提交页面
@@ -222,6 +257,10 @@ var lifeGroup = {
       pitEditIndex:0,
       pitEditGoodIds:'',
 
+      //修改banner
+      bannerModal:false,
+      bannerEditIndex:0,
+
       name:'',
       desc:'',
       list:[],
@@ -265,8 +304,11 @@ var lifeGroup = {
     var {
       globalStyle,tab,banners,list,pits,
       pitModal,pitModalData,
-      pitEditModalData,pitEditModal,pitEditGoodIds
+      pitEditModalData,pitEditModal,pitEditGoodIds,
+      bannerModal,bannerEditIndex
     } = this.state
+
+    var item = list[bannerEditIndex]
 
     return (
       <div className="page">
@@ -277,6 +319,7 @@ var lifeGroup = {
                 list={list}
                 onEdit={(data,index)=>this.editPagePit(data,index)}
                 onDeleteBanner={e=>this.deletePageBanner(e)}
+                onEditBanner={e=>this.editBanner(e)}
                 onUp={e=>this.upPanel(e)}
                 onDown={e=>this.downPanel(e)}
               />
@@ -371,6 +414,47 @@ var lifeGroup = {
           onHide = {e=>this.setState({pitEditModal:false})}
           onSuccess = {e=>this.editPit(e)}
         />
+        <Modal show={bannerModal} onHide={e=>this.setState({bannerModal:false})}>
+          <Modal.Header>
+            <Modal.Title>banner设置</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {item&&item.type==='banner'&&(
+              <div>
+                <FormGroup>
+                  <Radio checked={item.bType===0} onChange={e=>this.setBType(0)} inline>无</Radio>
+                  {' '}
+                  <Radio checked={item.bType===1} onChange={e=>this.setBType(1)} inline>跳转app详情页</Radio>
+                  {' '}
+                  <Radio checked={item.bType===2} onChange={e=>this.setBType(2)} inline>跳转页面url</Radio>
+                  {' '}
+                  <Radio checked={item.bType===3} onChange={e=>this.setBType(3)} inline>回到顶部</Radio>
+                </FormGroup>
+                {item.bType===1&&(
+                  <FormGroup>
+                    <ControlLabel>sku-id</ControlLabel>
+                    {' '}
+                    <FormControl value={item.skuId||''} onChange={e=>this.setBSkuId(e.target.value)}/>
+                    <br/>
+                    <ControlLabel>item-id</ControlLabel>
+                    {' '}
+                    <FormControl value={item.itemId||''} onChange={e=>this.setBItemId(e.target.value)}/>
+                  </FormGroup>
+                )}
+                {item.bType===2&&(
+                  <FormGroup>
+                    <ControlLabel>url链接</ControlLabel>
+                    {' '}
+                    <FormControl value={item.href||''} onChange={e=>this.setBHref(e.target.value)}/>
+                  </FormGroup>
+                )}
+              </div>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="primary" onClick={e=>this.setState({bannerModal:false})}>确定</Button>
+          </Modal.Footer>
+        </Modal>
         <div className="page-buttons">
           <Button onClick={e=>this.submit(e)} bsStyle="primary">保存页面</Button>
           {' '}
