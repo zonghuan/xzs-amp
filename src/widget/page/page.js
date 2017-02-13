@@ -22,16 +22,16 @@ module.exports = React.createClass({
                 <a className="client-hidden panel-down btn-xs btn btn-primary" onClick={e=>onDown&&onDown(index)}>
                   <span className="iconfont">&#xe69e;</span>下移
                 </a>
-                {item.bType===1&&(
+                {item.bType==1&&(
                   <a data-sku={item.skuId||''} data-item={item.itemId||''} href="javascript:void(0);"><img style={bannerStyle} src={item.img}/></a>
                 )}
-                {item.bType===2&&(
+                {item.bType==2&&(
                   <a href={item.href||'#'}><img style={bannerStyle} src={item.img}/></a>
                 )}
-                {item.bType===3&&(
+                {item.bType==3&&(
                   <a href="javascript:void(0);" className="backToTop"><img style={bannerStyle} src={item.img}/></a>
                 )}
-                {[1,2,3].indexOf(item.bType)===-1&&(
+                {[1,2,3].indexOf(parseInt(item.bType||'-100'))===-1&&(
                   <img style={bannerStyle} src={item.img}/>
                 )}
               </div>

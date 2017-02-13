@@ -422,15 +422,15 @@ var lifeGroup = {
             {item&&item.type==='banner'&&(
               <div>
                 <FormGroup>
-                  <Radio checked={item.bType===0} onChange={e=>this.setBType(0)} inline>无</Radio>
+                  <Radio checked={item.bType==0} onChange={e=>this.setBType(0)} inline>无</Radio>
                   {' '}
-                  <Radio checked={item.bType===1} onChange={e=>this.setBType(1)} inline>跳转app详情页</Radio>
+                  <Radio checked={item.bType==1} onChange={e=>this.setBType(1)} inline>跳转app详情页</Radio>
                   {' '}
-                  <Radio checked={item.bType===2} onChange={e=>this.setBType(2)} inline>跳转页面url</Radio>
+                  <Radio checked={item.bType==2} onChange={e=>this.setBType(2)} inline>跳转页面url</Radio>
                   {' '}
-                  <Radio checked={item.bType===3} onChange={e=>this.setBType(3)} inline>回到顶部</Radio>
+                  <Radio checked={item.bType==3} onChange={e=>this.setBType(3)} inline>回到顶部</Radio>
                 </FormGroup>
-                {item.bType===1&&(
+                {item.bType==1&&(
                   <FormGroup>
                     <ControlLabel>sku-id</ControlLabel>
                     {' '}
@@ -441,7 +441,7 @@ var lifeGroup = {
                     <FormControl value={item.itemId||''} onChange={e=>this.setBItemId(e.target.value)}/>
                   </FormGroup>
                 )}
-                {item.bType===2&&(
+                {item.bType==2&&(
                   <FormGroup>
                     <ControlLabel>url链接</ControlLabel>
                     {' '}
