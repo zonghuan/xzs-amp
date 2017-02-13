@@ -10,18 +10,17 @@ var remPath = path.join(nodeModulesPath,'dwd-rem/rem.js')
 var remJs = fs.readFileSync(remPath)
 
 module.exports = (html,globalStyle,name,desc) => {
+  var styleStr = `
+    background-color:${globalStyle.backgroundColor};
+    background-image:${globalStyle.backgroundImage||'none'};
+  `
   return (
-    `<html>
+    `<html style="${styleStr}">
       <head>
         <meta charset="UTF-8">
         <title>${name}</title>
         <script type="text/javascript">${remJs}</script>
         <script type="text/javascript">${zeptoJs}</script>
-        <script type="text/javascript">
-          $(function(){
-            $('html').css(${JSON.stringify(globalStyle)})
-          })
-        </script>
         <style>
           p,body,html{
             margin:0;
