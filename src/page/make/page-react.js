@@ -120,7 +120,15 @@ var eventGroup = {
     list[index] = flag
     this.setState({list})
   },
-
+  // 下移模块
+  downPanel(index){
+    var list = Object.assign([],this.state.list)
+    if(index>=list.length-1){ return }
+    var flag = list[index+1]
+    list[index+1] = list[index]
+    list[index] = flag
+    this.setState({list})
+  },
   // 提交页面
   submit(){
     var nameState = this.getValidationState()
@@ -270,6 +278,7 @@ var lifeGroup = {
                 onEdit={(data,index)=>this.editPagePit(data,index)}
                 onDeleteBanner={e=>this.deletePageBanner(e)}
                 onUp={e=>this.upPanel(e)}
+                onDown={e=>this.downPanel(e)}
               />
             </div>
           </div>
