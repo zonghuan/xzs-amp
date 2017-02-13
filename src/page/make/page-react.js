@@ -111,6 +111,16 @@ var eventGroup = {
     this.setState({tab})
   },
 
+  // 上移模块
+  upPanel(index){
+    var list = Object.assign([],this.state.list)
+    if(index<=0){ return }
+    var flag = list[index-1]
+    list[index-1] = list[index]
+    list[index] = flag
+    this.setState({list})
+  },
+
   // 提交页面
   submit(){
     var nameState = this.getValidationState()
@@ -259,6 +269,7 @@ var lifeGroup = {
                 list={list}
                 onEdit={(data,index)=>this.editPagePit(data,index)}
                 onDeleteBanner={e=>this.deletePageBanner(e)}
+                onUp={e=>this.upPanel(e)}
               />
             </div>
           </div>

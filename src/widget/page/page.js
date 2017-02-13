@@ -3,7 +3,7 @@ var {bannerStyle,pagePannel,pagePannelDel} = require('./style.js')
 
 module.exports = React.createClass({
   render(){
-    var {list,onDeleteBanner,onEdit} = this.props
+    var {list,onDeleteBanner,onEdit,onUp} = this.props
     return (
       <div>
         {list.map((item, index)=>{
@@ -12,6 +12,9 @@ module.exports = React.createClass({
               <div key={index} style={pagePannel}>
                 <a className="client-hidden panel-del btn-xs btn btn-primary" onClick={e=>onDeleteBanner&&onDeleteBanner(index)}>
                   <span className="iconfont">&#xe6b4;</span>删除
+                </a>
+                <a className="client-hidden panel-up btn-xs btn btn-primary" onClick={e=>onUp&&onUp(index)}>
+                  <span className="iconfont">&#xe69e;</span>上移
                 </a>
                 <img style={bannerStyle} src={item.img}/>
               </div>
@@ -25,6 +28,9 @@ module.exports = React.createClass({
                 </a>
                 <a className="client-hidden panel-edit btn-xs btn btn-primary" onClick={e=>onEdit&&onEdit(item,index)}>
                   <span className="iconfont">&#xe649;</span>修改
+                </a>
+                <a className="client-hidden panel-up btn-xs btn btn-primary" onClick={e=>onUp&&onUp(index)}>
+                  <span className="iconfont">&#xe69e;</span>上移
                 </a>
                 <div dangerouslySetInnerHTML={{__html:item.html}}></div>
               </div>
