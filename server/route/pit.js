@@ -43,8 +43,9 @@ router.get('/api/pit/html.json',function *(next){
     var query = this.request.query
     var result = yield pit.find({_id:query.pit})
     if(result.length>0){
-      var outputLess = yield thunkLess(`.${result[0].name}{${result[0].css}}`)
-      var html = _.template(`<div class="${result[0].name}">${result[0].html}</div>`)({list:mock})
+      var wrapName=`n${+new Date}`
+      var outputLess = yield thunkLess(`.${wrapName}{${result[0].css}}`)
+      var html = _.template(`<div class="${wrapName}">${result[0].html}</div>`)({list:mock})
       this.body=format(null,`<style>${outputLess.css}</style>${html}`)
     }else{
       this.body = format('坑位ID有误')
