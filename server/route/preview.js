@@ -14,11 +14,11 @@ router.get('/api/preview.json',function *(next){
   var query = this.request.query
   try{
     var result = yield pit.find({_id:query.pit})
-
     if(result.length > 0){
-      var outputLess = yield thunkLess(`.${result[0].name}{${result[0].css}}`)
-      var html = _.template(`<div class="${result[0].name}">${result[0].html}</div>`)({list:mockList})
-      this.body=getPage(`<style>${outputLess.css}</style>${html}`)
+      var wrapName=`n${+new Date}`
+      var outputLess = yield thunkLess(`.${wrapName}{${result[0].css}}`)
+      var html = _.template(`<div class="${wrapName}">${result[0].html}</div>`)({list:mockList})
+      this.body=getPage(`<style>${outputLess.css}</style>${html}`,{backgroundColor:'rgb(118, 179, 86)'})
     }else{
       this.body = getPage('找不到模块')
     }

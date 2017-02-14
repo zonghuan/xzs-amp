@@ -33,7 +33,18 @@
     </div>
     <div class="pit-buttons">
       <a href='javascript:void(0)' class="btn btn-primary" id="save">保存</a>
-      <a href='javascript:void(0)' class="btn btn-success">预览</a>
+      <a href='javascript:void(0)' class="btn btn-success" id="preview">预览</a>
+    </div>
+  </div>
+</div>
+
+<div id="iframeModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">坑位预览</div>
+      <div class="modal-body modal-info">
+        <iframe border="0" class="preview-iframe" id="previewIframe"></iframe>
+      </div>
     </div>
   </div>
 </div>

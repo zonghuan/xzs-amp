@@ -1,6 +1,30 @@
 import React from 'react'
+import "./nav.less"
 
 export default React.createClass({
+  getInitialState(){
+    return {
+      userName:''
+    }
+  },
+  componentDidMount(){
+    var promise = $.ajax('/api/getUser.json')
+    promise.done(result=>{
+      if(result.code===1){
+        this.setState({userName:result.msg.name})
+      }
+    })
+  },
+  logout(){
+    var promise = $.ajax('/api/logout.json',{
+      method:'post'
+    })
+    promise.done(result=>{
+      if(result.code===1){
+        window.location.href='/login.html'
+      }
+    })
+  },
   render(){
     var {select} = this.props
     return (
@@ -16,6 +40,11 @@ export default React.createClass({
             </ul>
           </div>
         </div>
+        <a className="user" onClick={e=>this.logout()}>
+          <span className="iconfont">&#xe7cb;</span>
+          {' '}
+          {this.state.userName}
+        </a>
       </nav>
     )
   }

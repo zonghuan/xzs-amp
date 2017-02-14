@@ -110,4 +110,16 @@ $(()=>{
     })
 
   })
+
+  // 预览
+  var pit = getUrlParam('pit')
+  var iframe = $('#previewIframe')
+  if(pit){
+    iframe.attr('src',`/api/preview.json?pit=${pit}`)
+  }
+  $('#preview').on('click',()=>{
+    iframe.attr('src',iframe.attr('src'))
+    $('#iframeModal').modal('show')
+  })
+
 })
