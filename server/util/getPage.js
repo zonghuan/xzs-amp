@@ -27,6 +27,9 @@ module.exports = (html,globalStyle,name,desc) => {
         var element=$(e.target);
         hybird.addItemToCart(element.attr('data-item'),element.attr('data-sku'));
       });
+      content.on('click','.backToTop',function(e){
+        $(window).scrollTop(0);
+      });
     })
   `
   return (

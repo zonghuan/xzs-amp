@@ -29,7 +29,7 @@ module.exports = React.createClass({
                   <a href={item.href||'#'}><img style={bannerStyle} src={item.img}/></a>
                 )}
                 {item.bType==3&&(
-                  <a href="javascript:void(0);" className="backToTop"><img style={bannerStyle} src={item.img}/></a>
+                  <div className="backToTop"><img style={bannerStyle} src={item.img}/></div>
                 )}
                 {[1,2,3].indexOf(parseInt(item.bType||'-100'))===-1&&(
                   <img style={bannerStyle} src={item.img}/>
