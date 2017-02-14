@@ -13,6 +13,9 @@ router.post('/api/pit/create.json',function *(next){
     if(search.length>0){
       return this.body = format('有重名的模块')
     }
+    if(this.session.user){
+      body.author = this.session.user.name
+    }
     var result = yield pit.create(body)
     return this.body = format(null,result)
   }catch(e){

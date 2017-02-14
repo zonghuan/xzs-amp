@@ -6,6 +6,7 @@ module.exports = new mongoose.Schema({
   css:String,
   // 模块名称
   name:String,
+  author:String,
   // 模块预览图
   url:String
 })

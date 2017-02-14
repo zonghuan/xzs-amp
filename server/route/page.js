@@ -30,6 +30,9 @@ router.post('/api/page/create.json',function *(next){
     if(illegalNames.indexOf(body.name)!==-1){
       return this.body = format('非法的页面名称')
     }
+    if(this.session.user){
+      body.author = this.session.user.name
+    }
     var result = yield page.create(body)
     this.body = format(null,result)
   }catch(e){

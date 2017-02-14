@@ -1,5 +1,6 @@
 var router=require('koa-router')()
 var loginToken=require('../util/loginToken.js')
+var format = require('../util/format.js')
 
 router.post('/api/login.json',function *(next){
   var {body} = this.request
@@ -11,7 +12,7 @@ router.post('/api/login.json',function *(next){
     }
     this.body=res[1]
   }catch(e){
-    this.body=e.toString()
+    this.body=format(e.toString())
   }
 })
 

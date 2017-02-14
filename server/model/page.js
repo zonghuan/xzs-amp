@@ -8,6 +8,7 @@ module.exports = new mongoose.Schema({
   name:{ type: String, trim: true, required: true },
   // 页面的描述
   desc:String,
+  author:String,
   // 创建时的时间戳
   createTime: {
     type: Date,
