@@ -82,6 +82,8 @@ $(()=>{
       savePromise.then(result => {
         if(result.code === 1){
           return dialog('坑位更新成功')
+        }else{
+          return dialog(result.msg)
         }
       })
       return

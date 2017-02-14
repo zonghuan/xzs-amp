@@ -44,6 +44,13 @@ router.post('/api/page/create.json',function *(next){
 router.post('/api/page/update.json',function *(next){
   try{
     var {_id,list,globalStyle,desc} = this.request.body
+    if(!this.session.user){
+      return this.body = format('没有用户信息，请重新登陆')
+    }
+    var search = yield page.find({_id,author:this.session.user.name})
+    if(search.length===0){
+      return this.body = format('你不是改页面的创建者，不能修改')
+    }
     var result =yield page.update({_id,list,globalStyle,desc})
     this.body = format(null,result)
   }catch(e){

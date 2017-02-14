@@ -27,12 +27,15 @@ router.post('/api/pit/create.json',function *(next){
 router.post('/api/pit/update.json',function *(next){
   try{
     var body = this.request.body
-    var pits = yield pit.find({_id:body._id})
+    if(!this.session.user){
+      return this.body = format('没有用户信息，请重新登陆')
+    }
+    var pits = yield pit.find({_id:body._id,author:this.session.user.name})
     if(pits.length > 0){
       var result = yield pit.update(body)
       this.body = format(null,result)
     }else{
-      this.body = format('没有更新的模块')
+      this.body = format('你不是改模块的创建者，不能修改')
     }
   }catch(e){
     this.body = format(e)
