@@ -72,7 +72,7 @@ export default React.createClass({
             >
               <ControlLabel>商品id</ControlLabel>
               <FormControl
-                type="text"
+                componentClass="textarea"
                 placeholder="输入商品id,以逗号分割"
                 value={this.state.goodIds}
                 onChange={e=>{
