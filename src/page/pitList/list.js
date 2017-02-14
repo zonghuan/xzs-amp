@@ -34,6 +34,7 @@ export default React.createClass({
               <div className='line'>
                 <Image src={item.url} thumbnail/>
               </div>
+              <div className="line">{'创建者 : '+item.author}</div>
               <div className='line'>
                 <a className="btn btn-xs btn-primary" href={`/pit.html?pit=${item._id}`}>修改</a>
               </div>

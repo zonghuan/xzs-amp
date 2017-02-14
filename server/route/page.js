@@ -44,13 +44,6 @@ router.post('/api/page/create.json',function *(next){
 router.post('/api/page/update.json',function *(next){
   try{
     var {_id,list,globalStyle,desc} = this.request.body
-    if(!this.session.user){
-      return this.body = format('没有用户信息，请重新登陆')
-    }
-    var search = yield page.find({_id,author:this.session.user.name})
-    if(search.length===0){
-      return this.body = format('你不是改页面的创建者，不能修改')
-    }
     var result =yield page.update({_id,list,globalStyle,desc})
     this.body = format(null,result)
   }catch(e){
@@ -68,16 +61,19 @@ router.post('/api/page/createHtml.json',function *(next){
     if(!body._id){
       return this.body = format("请输入id")
     }
-    var result = yield page.find({_id:body._id})
+    if(!this.session.user){
+      return this.body = format('没有用户信息，请重新登陆')
+    }
+    var result = yield page.find({_id:body._id,author:this.session.user.name})
     if(result.length===0){
-      return this.body = format('没有找到相应page')
+      return this.body = format('你不是该页面的创建者，不能发布')
     }
     result = result[0]
 
     var html=getPage(
       ReactDOMServer.renderToString(<Page list={result.list}/>),
       result.globalStyle,
-      result.name
+      result.desc||result.name
     )
     var distFile = path.join(process.cwd(),'dist',result.name+'.html')
     if(yield existsFile(distFile)){
@@ -111,7 +107,7 @@ router.get('/api/page/detail.json',function *(next){
 // 页面列表
 router.get('/api/page/short.json',function *(next){
   try{
-    var result = yield page.find({},{updateTime:1,name:1,createTime:1,desc:1})
+    var result = yield page.find({},{updateTime:1,name:1,createTime:1,desc:1,author:1})
     this.body = format(null,result)
   }catch(e){
     this.body = format(e)

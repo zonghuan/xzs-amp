@@ -9,7 +9,7 @@ var zeptoJs = fs.readFileSync(require.resolve('zepto'))
 var remJs = fs.readFileSync(require.resolve('dwd-rem'))
 var hybirdJs = fs.readFileSync(require.resolve('xzs-hybird'))
 
-module.exports = (html,globalStyle,name,desc) => {
+module.exports = (html,globalStyle,title) => {
   var styleStr = `
     background-color:${globalStyle.backgroundColor};
     background-image:${globalStyle.backgroundImage||'none'};
@@ -23,7 +23,7 @@ module.exports = (html,globalStyle,name,desc) => {
         hybird.openDetail(element.attr('detail'));
       });
 
-      content.on('click','a[sku-id]',function(e){
+      content.on('click','a[data-sku]',function(e){
         var element=$(e.target);
         hybird.addItemToCart(element.attr('data-item'),element.attr('data-sku'));
       });
@@ -36,7 +36,7 @@ module.exports = (html,globalStyle,name,desc) => {
     `<html style="${styleStr}">
       <head>
         <meta charset="UTF-8">
-        <title>${name}</title>
+        <title>${title}</title>
         <script type="text/javascript">${remJs}</script>
         <script type="text/javascript">${zeptoJs}</script>
         <script type="text/javascript">${hybirdJs}</script>

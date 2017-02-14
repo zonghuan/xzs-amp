@@ -63,7 +63,7 @@ router.get('/api/pit/html.json',function *(next){
 
 router.get('/api/pit/short.json',function *(next){
   try{
-    var result = yield pit.find({},{url:1,name:1})
+    var result = yield pit.find({},{url:1,name:1,author:1})
     this.body = format(null,result)
   }catch(e){
     this.body = format(e)

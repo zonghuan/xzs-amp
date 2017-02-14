@@ -349,13 +349,13 @@ var lifeGroup = {
                 </div>
               </FormGroup>
               <FormGroup>
-                <label className="col-sm-3 control-label" style={{"marginTop":"7px"}}>页面描述</label>
+                <label className="col-sm-3 control-label" style={{"marginTop":"7px"}}>页面标题</label>
                 <div className="col-sm-9">
                   <FormControl
                     componentClass="textarea"
                     value={this.state.desc||''}
                     onChange={e=>this.setState({desc:e.target.value})}
-                    placeholder="页面描述"
+                    placeholder="页面标题"
                   />
                 </div>
               </FormGroup>
