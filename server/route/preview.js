@@ -4,7 +4,6 @@ var _ = require('underscore')
 
 var getPage = require('../util/getPage.js')
 
-var pit = require('../controller/pit.js')
 var pitController = require('../mysql-controller/pit.js')
 var thunkLess = require('../util/thunkLess.js')
 var mockList = require('../util/mockData.js')
