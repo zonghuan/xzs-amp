@@ -170,7 +170,7 @@ var eventGroup = {
     if(nameState === 'error'){
       return msg.show('请填写页面名称')
     }
-    var {list,globalStyle,name,desc} = this.state
+    var {list,globalStyle,name,description} = this.state
     if(list.length === 0){
       return msg.show('页面没有内容')
     }
@@ -178,7 +178,7 @@ var eventGroup = {
       var promise = $.ajax('/api/page/create.json',{
         method:'post',
         data:{
-          list,globalStyle,name,desc
+          list,globalStyle,name,description
         }
       })
       promise.done(result=>{
@@ -186,7 +186,7 @@ var eventGroup = {
           var timeout = 1;
           msg.show(`添加页面成功,${timeout}秒后跳转`)
           window.setTimeout(()=>{
-            window.location.href=`/make.html?id=${result.msg._id}`;
+            window.location.href=`/make.html?id=${result.msg.insertId}`;
           },timeout*1000)
         }else{
           msg.show(result.msg)
@@ -196,7 +196,7 @@ var eventGroup = {
       var updatePromise = $.ajax('/api/page/update.json',{
         method:'post',
         data:{
-          _id:id,list,globalStyle,name,desc
+          _id:id,list,globalStyle,name,description
         }
       })
       updatePromise.done(result=>{
@@ -262,7 +262,7 @@ var lifeGroup = {
       bannerEditIndex:0,
 
       name:'',
-      desc:'',
+      description:'',
       list:[],
       globalStyle:{
         "backgroundColor":'#000000',
@@ -289,9 +289,9 @@ var lifeGroup = {
       })
       detailPromise.done(result=>{
         if(result.code === 1){
-          var {name,list,globalStyle,desc} = result.msg
+          var {name,list,globalStyle,description} = result.msg
           this.setState({
-            name,list,globalStyle,desc
+            name,list,globalStyle,description
           })
         }
       })
@@ -353,8 +353,8 @@ var lifeGroup = {
                 <div className="col-sm-9">
                   <FormControl
                     componentClass="textarea"
-                    value={this.state.desc||''}
-                    onChange={e=>this.setState({desc:e.target.value})}
+                    value={this.state.description||''}
+                    onChange={e=>this.setState({description:e.target.value})}
                     placeholder="页面标题"
                   />
                 </div>

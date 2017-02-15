@@ -32,8 +32,7 @@ export default React.createClass({
             <Panel header={"页面名称 : "+item.name} style={{marginBottom:0}}>
               <div className="line">{"标题 : "+(item.desc||'无')}</div>
               <div className="line">{'创建者 : '+ item.author}</div>
-              <div className="line">{'创建日期 : '+formatDate(item.createTime)}</div>
-              <div className="line">{'更新日期 : '+formatDate(item.updateTime)}</div>
+              <div className="line">{'创建日期 : '+formatDate(new Date(item.createTime))}</div>
               <div className='line'>
                 <a className="btn btn-xs btn-primary" href={`/make.html?id=${item._id}`}>修改</a>
               </div>

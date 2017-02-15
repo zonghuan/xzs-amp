@@ -1,7 +1,10 @@
 var router = require('./instance.js')
 var path = require('path')
 var format = require('../util/format.js')
+
 var page = require('../controller/page.js')
+var pageController = require('../mysql-controller/page.js')
+
 var React = require('react')
 var thunkify = require('thunkify')
 var fs = require('fs')
@@ -10,6 +13,7 @@ var existsFile = (distFile) => (callback) =>{
     callback(null,exist)
   })
 }
+var dataTransform = require('../util/json.js')
 var writeFile = thunkify(fs.writeFile)
 var appendFile = thunkify(fs.appendFile)
 
@@ -23,18 +27,12 @@ var illegalNames = (()=>{
 router.post('/api/page/create.json',function *(next){
   try{
     var {body} = this.request
-    var search = yield page.find({name:body.name})
-    if(search.length>0){
-      return this.body = format('有重名的页面')
-    }
     if(illegalNames.indexOf(body.name)!==-1){
       return this.body = format('非法的页面名称')
     }
-    if(this.session.user){
-      body.author = this.session.user.name
-    }
-    var result = yield page.create(body)
-    this.body = format(null,result)
+    body.author = this.session.user.name
+    var result = yield pageController.create(dataTransform.page.toDb(body))
+    this.body = format(null,result[0])
   }catch(e){
     this.body = format(e)
   }
@@ -43,8 +41,8 @@ router.post('/api/page/create.json',function *(next){
 // 保存页面
 router.post('/api/page/update.json',function *(next){
   try{
-    var {_id,list,globalStyle,desc} = this.request.body
-    var result =yield page.update({_id,list,globalStyle,desc})
+    var {_id,list,globalStyle,description} = dataTransform.page.toDb(this.request.body)
+    var result =yield pageController.update({_id,list,globalStyle,description})
     this.body = format(null,result)
   }catch(e){
     this.body = format(e)
@@ -64,16 +62,19 @@ router.post('/api/page/createHtml.json',function *(next){
     if(!this.session.user){
       return this.body = format('没有用户信息，请重新登陆')
     }
-    var result = yield page.find({_id:body._id,author:this.session.user.name})
-    if(result.length===0){
-      return this.body = format('你不是该页面的创建者，不能发布')
-    }
+    var result = yield pageController.find({_id:body._id})
     result = result[0]
-
+    if(result.length===0){
+      return this.body = format('找不到改页面')
+    }
+    result = (dataTransform.page.toFront(result))[0]
+    if(result.author!==this.session.user.name){
+      return this.body = format('你不是改页面的创建者，无法发布')
+    }
     var html=getPage(
       ReactDOMServer.renderToString(<Page list={result.list}/>),
       result.globalStyle,
-      result.desc||result.name
+      result.description||result.name
     )
     var distFile = path.join(process.cwd(),'dist',result.name+'.html')
     if(yield existsFile(distFile)){
@@ -94,11 +95,12 @@ router.get('/api/page/detail.json',function *(next){
     if(!query._id){
       return this.body = format('请填写_id')
     }
-    var search = yield page.find({_id:query._id})
-    if(search.length === 0){
-      return this.body = format('有重名的页面')
+    var search = yield pageController.find({_id:query._id})
+    if(search[0].length === 0){
+      return this.body = format('没有找到相应页面')
     }
-    return this.body = format(null,search[0])
+    var result = dataTransform.page.toFront(search[0])
+    return this.body = format(null,result[0])
   }catch(e){
     this.body = format(e)
   }
@@ -107,8 +109,8 @@ router.get('/api/page/detail.json',function *(next){
 // 页面列表
 router.get('/api/page/short.json',function *(next){
   try{
-    var result = yield page.find({},{updateTime:1,name:1,createTime:1,desc:1,author:1})
-    this.body = format(null,result)
+    var result = yield pageController.short()
+    this.body = format(null,result[0])
   }catch(e){
     this.body = format(e)
   }

@@ -9,8 +9,8 @@ create table if not exists page(
   name char(255) not null,
   description mediumtext,
   author tinytext,
-  createTime datetime,
-  updateTime datetime,
+  createTime timestamp default current_timestamp,
+  updateTime timestamp default current_timestamp,
   unique(name)
 )default charset=utf8;
 
