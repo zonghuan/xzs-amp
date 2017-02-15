@@ -20,6 +20,8 @@ create table if not exists pit(
   css longtext not null,
   name char(255) not null,
   author tinytext,
+  createTime timestamp default current_timestamp,
+  disabled init,
   url tinytext,
   unique(name)
 )default charset=utf8;

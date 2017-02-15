@@ -16,6 +16,6 @@ module.exports = {
     return pool.query('UPDATE page SET ? where _id = ?',[params,_id])
   },
   short(){
-    return pool.query('select name,description,author,createTime from page')
+    return pool.query('select name,description,author,createTime,_id from page')
   }
 }

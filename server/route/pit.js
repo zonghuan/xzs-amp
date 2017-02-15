@@ -2,22 +2,23 @@ var router = require('./instance.js')
 var path = require('path')
 var format = require('../util/format.js')
 var thunkLess = require('../util/thunkLess.js')
-var pit = require('../controller/pit.js')
+var pitController = require('../mysql-controller/pit.js')
 var _ = require('underscore')
 
 // 创建坑位
 router.post('/api/pit/create.json',function *(next){
   try{
     var body = this.request.body
-    var search = yield pit.find({name:body.name})
-    if(search.length>0){
+    var search = yield pitController.find({name:body.name})
+    if(search[0].length>0){
       return this.body = format('有重名的模块')
     }
     if(this.session.user){
       body.author = this.session.user.name
     }
-    var result = yield pit.create(body)
-    return this.body = format(null,result)
+
+    var result = yield pitController.create(body)
+    return this.body = format(null,result[0])
   }catch(e){
     this.body = format(e)
   }
@@ -30,12 +31,17 @@ router.post('/api/pit/update.json',function *(next){
     if(!this.session.user){
       return this.body = format('没有用户信息，请重新登陆')
     }
-    var pits = yield pit.find({_id:body._id,author:this.session.user.name})
-    if(pits.length > 0){
-      var result = yield pit.update(body)
-      this.body = format(null,result)
+    var pits = yield pitController.find({_id:body._id})
+
+    if(pits[0].length > 0){
+      var pit = pits[0][0]
+      if(pit.author!==this.session.user.name){
+        return this.body = format('你不是该模块的创建者，不能修改该坑位')
+      }
+      var result = yield pitController.update(body)
+      this.body = format(null,result[0])
     }else{
-      this.body = format('你不是改模块的创建者，不能修改')
+      this.body = format('找不到相应坑位')
     }
   }catch(e){
     this.body = format(e)
@@ -47,8 +53,9 @@ var mock = require('../util/mockData.js')
 router.get('/api/pit/html.json',function *(next){
   try{
     var query = this.request.query
-    var result = yield pit.find({_id:query.pit})
-    if(result.length>0){
+    var result = yield pitController.find({_id:query.pit})
+    if(result[0].length>0){
+      result = result[0]
       var wrapName=`n${+new Date}`
       var outputLess = yield thunkLess(`.${wrapName}{${result[0].css}}`)
       var html = _.template(`<div class="${wrapName}">${result[0].html}</div>`)({list:mock})
@@ -63,8 +70,8 @@ router.get('/api/pit/html.json',function *(next){
 
 router.get('/api/pit/short.json',function *(next){
   try{
-    var result = yield pit.find({},{url:1,name:1,author:1})
-    this.body = format(null,result)
+    var result = yield pitController.short({},{url:1,name:1,author:1})
+    this.body = format(null,result[0])
   }catch(e){
     this.body = format(e)
   }
@@ -74,9 +81,9 @@ router.get('/api/pit/short.json',function *(next){
 router.get('/api/pit/detail.json',function *(next){
   try{
     var query = this.request.query
-    var result = yield pit.find({_id:query.pit})
-    if(result.length > 0){
-      this.body = format(null, result[0])
+    var result = yield pitController.find({_id:query.pit})
+    if(result[0].length > 0){
+      this.body = format(null, result[0][0])
     }else{
       this.body = format('坑位信息输入不合法')
     }
