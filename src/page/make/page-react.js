@@ -342,7 +342,7 @@ var lifeGroup = {
                   <FormControl
                     type="text"
                     value={this.state.name}
-                    onChange={e=>!id&&this.setState({name:e.target.value})}
+                    onChange={e=>!id&&this.setState({name:e.target.value.replace(/\s+/,'')})}
                     placeholder="页面名称,不可重名,禁空格,如czh20170605"
                   />
                   <FormControl.Feedback />

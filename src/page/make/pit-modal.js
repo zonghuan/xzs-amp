@@ -5,6 +5,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import HelpBlock from 'react-bootstrap/lib/HelpBlock'
+import msg from 'widget/msg'
 
 export default React.createClass({
   getInitialState(){
@@ -52,6 +53,9 @@ export default React.createClass({
     promise.done(result=>{
       if(result.code===1){
         onSuccess&&onSuccess({data,html:result.msg,goodIds})
+        onHide&&onHide()
+      }else{
+        msg.show(result.msg)
         onHide&&onHide()
       }
     })

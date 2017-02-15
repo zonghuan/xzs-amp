@@ -57,7 +57,7 @@ router.get('/api/pit/html.json',function *(next){
       this.body = format('坑位ID有误')
     }
   }catch(e){
-    this.body = format(e)
+    this.body = format(`坑位添加有误，错误为：${e.toString()}，请检查坑位代码`)
   }
 })
 
