@@ -2,7 +2,6 @@ var router = require('./instance.js')
 var path = require('path')
 var format = require('../util/format.js')
 
-var page = require('../controller/page.js')
 var pageController = require('../mysql-controller/page.js')
 
 var React = require('react')
